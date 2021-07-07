@@ -1,0 +1,8 @@
+.container {
+  margin: 50px;
+}
+
+.container table thead {
+  background-color: grey;
+  color: #ffffff;
+}

@@ -1,0 +1,18 @@
+.Footer-bottom-strip-content span {
+  font-size: 12px;
+  margin-right: 10px;
+  display: block;
+  color: #00000091;
+}
+.Footer-bottom-strip-content img {
+  display: block;
+  height: 12px;
+}
+
+.Footer-bottom-strip-content {
+  display: flex;
+  background-color: #c4c4c4;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+}

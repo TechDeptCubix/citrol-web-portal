@@ -1,0 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.CreateEnquiry-main-container {
+  border: 3px #ccc solid;
+  margin: 40px 40px 0px 40px;
+  position: relative;
+}
+
+.CreateEnquiry-main-container h4 {
+  margin-left: 20px;
+}
+
+.CreateEnquiry-divider {
+  border-top: 1px solid #ccc;
+}
+
+.CreateEnquiry-button {
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  padding: 5px 20px;
+  background-color: #c23c3c;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.CreateEnquiry-enquiry-button-container {
+  margin: 20px 0px 80px 40px;
+}
+
+.CreateEnquiry-enquiry-button-container span {
+  margin-right: 20px;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+}
+.CreateEnquiry-table-container {
+  height: auto;
+}
+
+.CreateEnquiry-table {
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px !important;
+}
+.CreateEnquiry-table thead {
+  background-color: #e5e5e5;
+  color: #000000;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  vertical-align: text-top;
+  position: sticky;
+  top: 0px;
+}
+
+.CreateEnquiry-table thead th {
+  padding: 15px 15px;
+}
+
+.CreateEnquiry-table tbody tr {
+  height: 40px;
+}
+.CreateEnquiry-table tbody td {
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: #000000;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 0px 15px;
+}
+
+.CreateEnquiry-table tbody td input {
+  padding: 4px;
+  border: 1px solid transparent;
+  font-size: 16px;
+}
+
+.inputBoxQuantity {
+  text-align: right;
+}
+
+.CreateEnquiry-table tbody td input[type="checkbox"] {
+  outline: 2px solid #000000;
+  width: 25px;
+  height: 25px;
+}
+
+.CreateEnquiry-table tbody td input:focus {
+  border: none;
+  outline: none;
+}
+
+.CreateEnquiry-quantity-input-box {
+  text-align: right;
+}
+
+.CreateEnquiry-input-fields-container {
+  padding: 20px;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+  color: #000000;
+}
+
+.CreateEnquiry-input-fields-container input {
+  margin-left: 30px;
+  margin-right: 30px;
+  background-color: #ededed;
+  padding: 4px;
+  border: 1px solid #0060af79;
+  font-size: 16px;
+}
+
+.CreateEnquiry-excel-button-container {
+  padding: 20px 10px 10px 0px;
+  text-align: right;
+}
+.CreateEnquiry-excel-button-container button {
+  margin-left: 10px;
+  padding: 4px 20px;
+  border: none;
+  background-color: #ffffff;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+}
+
+.CreateEnquiry-excel-button-container button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0px 15px 20px rgba(200, 200, 200, 0.9);
+  transform: translateY(-5px);
+}
+
+.CreateEnquiry-excel-button-container button span {
+  margin-left: 5px;
+  /* vertical-align: middle; */
+}
+
+.CreateEnquiry-excel-button-container button > img,
+.CreateEnquiry-excel-button-container button > span {
+  vertical-align: middle;
+}
+
+.CreateEnquiry-add-another-item-button {
+  font-size: 16px;
+  color: #bd1c1c;
+  border: none;
+  background-color: #f7f7f7;
+  padding: 10px;
+  cursor: pointer;
+  margin: 20px;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+}
+
+.CreateEnquiry-supersed-check-button {
+  font-size: 15px;
+  color: #000000;
+  border: none;
+  background-color: #c4c4c4;
+  padding: 5px 15px;
+  cursor: pointer;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Poppins", sans-serif;
+}
+
+.CreateEnquiry-parent-container-row-of-search-list {
+  position: relative;
+}
+
+.selectedListItem {
+  background-color: #5d5353 !important;
+  color: #ffffff;
+}
+
+.CreateEnquiry-quantity-input-box {
+  width: 60px;
+}
+
+.CreateEnquiry-add-another-item-button-span {
+  border-bottom: 2px solid #bd1c1c;
+}
+
+.CreateEnquiry-button-span {
+  border-bottom: 2px solid #ffffff;
+  margin-right: 0px !important;
+}

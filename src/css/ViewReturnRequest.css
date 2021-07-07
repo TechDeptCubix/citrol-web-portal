@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.ViewReturnRequest-main-container {
+  border: 1px black solid;
+  margin: 40px 40px 0px 40px;
+  position: relative;
+  min-height: 350px;
+}
+
+.ViewReturnRequest-table-container {
+  border: 1px black solid;
+  margin: 40px 40px 40px 40px;
+}
+
+.ViewReturnRequest-main-container h4 {
+  margin-left: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+.ViewReturnRequest-divider {
+  border-top: 1px solid #000000;
+}
+
+.ViewReturnRequest-table {
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px !important;
+}
+.ViewReturnRequest-table thead {
+  background-color: #e5e5e5;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  vertical-align: text-top;
+}
+
+.ViewReturnRequest-table thead th {
+  padding: 15px 15px;
+}
+.ViewReturnRequest-table tbody td {
+  padding: 20px 15px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  color: #000000;
+  border-bottom: 1px solid #000000;
+}
+
+.ViewReturnRequest-left-container {
+  width: 50%;
+  height: 200px;
+}
+
+.ViewReturnRequest-right-container {
+  width: 50%;
+  height: 200px;
+}
+
+.ViewReturnRequest-inner-container {
+  display: flex;
+  padding-top: 30px;
+}
+
+.ViewReturnRequest-label-value-container label {
+  width: 160px;
+  font-family: "Roboto Slab", serif;
+  display: inline-block;
+  padding: 10px 0px 10px 20px;
+}
+
+.ViewReturnRequest-label-value-colon {
+  margin-right: 20px;
+}
+
+.ViewReturnRequest-label-value {
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+}

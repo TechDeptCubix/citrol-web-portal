@@ -1,0 +1,150 @@
+body {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.SystemRegister-page-height {
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+}
+
+.SystemRegister-main-section {
+  position: relative;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.SystemRegister-main-section-content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.SystemRegister-main-section-content h2 {
+  font-size: 26px;
+  color: #ffffff;
+  width: 30vw;
+  margin: 20px auto;
+  font-family: "Roboto Slab", serif;
+}
+
+.SystemRegister-form {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 18vw;
+  margin: 50px auto;
+  padding-top: 30px;
+  border: 3px solid black;
+}
+
+.SystemRegister-form .SystemRegister-submit {
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  margin: 30px auto 40px;
+  padding: 5px 0px;
+  width: 12vw;
+  background-color: #c23c3c;
+  font-family: "Roboto Slab", serif;
+  cursor: pointer;
+}
+
+::placeholder {
+  font-family: "Roboto Slab", serif;
+  color: #767676;
+}
+
+.SystemRegister-form input[type="text"],
+.SystemRegister-form input[type="password"] {
+  margin: 20px auto 0;
+  width: 12vw;
+  font-size: 15px;
+  padding: 4px;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+}
+
+.SystemRegister-pqp-items-carousel li {
+  display: inline-block;
+}
+.SystemRegister-pqp-items-carousel img {
+  width: 100px;
+  margin-right: 30px;
+  border: 2px solid #fff;
+}
+
+.SystemRegister-brand-list-container {
+  background-color: #ffffff;
+  padding: 5px 5px;
+}
+
+.SystemRegister-brand-list-container li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.SystemRegister-brand-list-container img {
+  height: 40px;
+  width: 60px;
+  object-fit: contain;
+}
+
+.SystemRegister-bottom-strip-content span {
+  font-size: 12px;
+  margin-right: 10px;
+  display: block;
+  color: #00000091;
+}
+.SystemRegister-bottom-strip-content img {
+  display: block;
+  height: 12px;
+}
+
+.SystemRegister-bottom-strip-content {
+  display: flex;
+  background-color: #c4c4c4;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+}
+
+.SystemRegister-logo-container {
+  height: 110px;
+}
+
+.SystemRegister-header-logo {
+  margin: 25px 0px 15px 25px;
+}
+
+.SystemRegister-bg-image-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.SystemRegister-bg-image-container:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(123, 49, 49, 1) 100%
+  );
+  z-index: 0;
+}
+
+.SystemRegister-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.SystemRegister-form-error-label {
+  padding: 0px 20px 20px 20px;
+}

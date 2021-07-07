@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.OrderPlacing-main-container {
+  border: 1px black solid;
+  margin: 40px 40px 20px 40px;
+  position: relative;
+}
+
+.OrderPlacing-main-container h4 {
+  margin-left: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+.OrderPlacing-divider {
+  border-top: 1px solid #000000;
+}
+
+.OrderPlacing-table-container {
+  overflow-x: scroll;
+  height: 70vh;
+}
+.OrderPlacing-table {
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px !important;
+}
+.OrderPlacing-table thead {
+  background-color: #e5e5e5;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  vertical-align: text-top;
+  outline: 1px #000000 solid;
+  position: sticky;
+  top: 0px;
+  z-index: 3;
+}
+
+.OrderPlacing-table thead th {
+  padding: 15px 15px;
+}
+.OrderPlacing-table tbody {
+  margin-top: 500px;
+}
+.OrderPlacing-table tbody td {
+  padding: 20px 15px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  color: #000000;
+  border-bottom: 1px solid #000000;
+}
+
+.OrderPlacing-left-container {
+  width: 50%;
+}
+
+.OrderPlacing-right-container {
+  width: 50%;
+}
+
+.OrderPlacing-inner-container {
+  display: flex;
+  padding-top: 10px;
+  height: 100px;
+  justify-content: space-between;
+}
+
+.OrderPlacing-label-value-container label {
+  width: 160px;
+  font-family: "Roboto Slab", serif;
+  display: inline-block;
+  padding: 10px 0px 10px 20px;
+  font-weight: 500;
+}
+
+.OrderPlacing-label-value-colon {
+  margin-right: 20px;
+}
+
+.OrderPlacing-label-value {
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  margin-right: 30px;
+}
+
+.OrderPlacing-excel-button {
+  margin-left: auto;
+  padding: 4px 20px;
+  border: none;
+  background-color: #ffffff;
+  font-family: "Roboto Slab", serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  display: block;
+}
+
+.OrderPlacing-excel-button-container {
+  padding: 0px 20px 15px 0px;
+  text-align: right;
+}
+
+.OrderPlacing-excel-button-container button {
+  margin-left: 10px;
+  padding: 4px 20px;
+  border: none;
+  background-color: #ffffff;
+  font-family: "Roboto Slab", serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+}
+
+.OrderPlacing-excel-button-container button span {
+  margin-left: 5px;
+}
+
+.OrderPlacing-excel-button-container button > img,
+.OrderPlacing-excel-button-container button > span {
+  vertical-align: middle;
+}
+
+.OrderPlacing-excel-button-container button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0px 15px 20px rgba(200, 200, 200, 0.9);
+  transform: translateY(-5px);
+}
+
+.OrderPlacing-label-value-container input {
+  margin-right: 30px;
+  background-color: #ededed;
+  padding: 4px;
+  border: 1px solid #0060af79;
+  font-size: 16px;
+}
+
+.OrderPlacing-table tbody td input[type="checkbox"] {
+  outline: 2px solid #000000;
+  width: 25px;
+  height: 25px;
+}
+
+.OrderPlacing-table tbody td input {
+  background-color: #ededed;
+  padding: 4px;
+  border: 1px solid #0060af79;
+  font-size: 16px;
+  width: 60px;
+}
+
+.OrderPlacing-button {
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  padding: 5px 20px;
+  background-color: #c23c3c;
+  font-family: "Roboto Slab", serif;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.OrderPlacing-button-container {
+  margin: 20px 0px 40px 40px;
+}
+
+.OrderPlacing-button-container span {
+  margin-right: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+.OrderPlacing-Qty-Avl-Col {
+  text-align: center;
+}
+
+.OrderPlacing-Qty-Avl-Col-Head-First {
+  text-align: center;
+  border-top: 1px black solid;
+  border-right: 1px black solid;
+}
+
+.OrderPlacing-Qty-Avl-Col-Head {
+  text-align: center;
+  border-top: 1px black solid;
+}
+
+.OrderPlacing-supersed-check-button {
+  font-size: 15px;
+  color: #000000;
+  border: none;
+  background-color: #c4c4c4;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-family: "Roboto Slab", serif;
+}
+
+.OrderPlacing-part-number-info-icon {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: -10px;
+  cursor: pointer;
+}
+
+.OrderPlacing-part-number-icon-span {
+  position: relative;
+}
+
+.OrderPlacing-part-number-icon-span .OrderPlacing-part-number-tooltip {
+  visibility: hidden;
+  width: 285px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  top: -23px;
+  left: 110%;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.OrderPlacing-part-number-icon-span[data-active="true"]
+  .OrderPlacing-part-number-tooltip {
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+}

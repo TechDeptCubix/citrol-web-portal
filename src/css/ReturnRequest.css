@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.ReturnRequest-main-container {
+  border: 1px black solid;
+  margin: 40px 40px 20px 40px;
+  position: relative;
+  min-height: 500px;
+}
+
+.ReturnRequest-table-container {
+  border: 1px black solid;
+  margin: 40px 40px 40px 40px;
+}
+
+.ReturnRequest-main-container h4 {
+  margin-left: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+.ReturnRequest-divider {
+  border-top: 1px solid #000000;
+}
+
+.ReturnRequest-table {
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px !important;
+}
+.ReturnRequest-table thead {
+  background-color: #e5e5e5;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  vertical-align: text-top;
+  outline: 1px #000000 solid;
+}
+
+.ReturnRequest-table thead th {
+  padding: 15px 15px;
+}
+.ReturnRequest-table tbody td {
+  padding: 20px 15px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  color: #000000;
+  border-bottom: 1px solid #000000;
+}
+
+.ReturnRequest-left-container {
+  width: 50%;
+}
+
+.ReturnRequest-right-container {
+  width: 50%;
+}
+
+.ReturnRequest-inner-container {
+  display: flex;
+  padding-top: 10px;
+  height: 150px;
+}
+
+.ReturnRequest-label-value-container label {
+  width: 160px;
+  font-family: "Roboto Slab", serif;
+  display: inline-block;
+  padding: 10px 0px 10px 20px;
+}
+
+.ReturnRequest-label-value-colon {
+  margin-right: 20px;
+}
+
+.ReturnRequest-label-value {
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+}
+
+.ReturnRequest-excel-button {
+  margin-left: auto;
+  padding: 4px 20px;
+  border: none;
+  background-color: #ffffff;
+  font-family: "Roboto Slab", serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  display: block;
+}
+
+.ReturnRequest-excel-button-container {
+  padding: 0px 20px 15px 0px;
+  text-align: right;
+}
+
+.ReturnRequest-excel-button-container button span {
+  margin-left: 5px;
+}
+
+.ReturnRequest-excel-button-container button > img,
+.ReturnRequest-excel-button-container button > span {
+  vertical-align: middle;
+}
+
+.ReturnRequest-excel-button-container button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0px 15px 20px rgba(200, 200, 200, 0.9);
+  transform: translateY(-5px);
+}
+
+.ReturnRequest-label-value-container input {
+  margin-right: 30px;
+  background-color: #ededed;
+  padding: 4px;
+  border: 1px solid #0060af79;
+  font-size: 16px;
+}
+
+.ReturnRequest-table tbody td input[type="checkbox"] {
+  outline: 2px solid #000000;
+  width: 25px;
+  height: 25px;
+}
+
+.ReturnRequest-table tbody td input {
+  background-color: #ededed;
+  padding: 4px;
+  border: 1px solid #0060af79;
+  font-size: 16px;
+}
+
+.ReturnRequest-button {
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  padding: 5px 20px;
+  background-color: #c23c3c;
+  font-family: "Roboto Slab", serif;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.ReturnRequest-button-container {
+  margin: 20px 0px 40px 40px;
+}
+
+.ReturnRequest-button-container span {
+  margin-right: 20px;
+  font-family: "Roboto Slab", serif;
+}

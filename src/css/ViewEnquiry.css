@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.ViewEnquiry-main-container {
+  border: 3px #ccc solid;
+  margin: 40px 40px 40px 40px;
+  position: relative;
+  min-height: 750px;
+}
+
+.ViewEnquiry-table-container {
+  border: 1px black solid;
+  margin: 40px 40px 40px 40px;
+}
+
+.ViewEnquiry-main-container h4 {
+  margin-left: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+.ViewEnquiry-divider {
+  border-top: 1px solid #000000;
+}
+
+.ViewEnquiry-table {
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px !important;
+}
+.ViewEnquiry-table thead {
+  background-color: #e5e5e5;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  vertical-align: text-top;
+  outline: 1px #ccc solid;
+}
+
+.ViewEnquiry-table thead th {
+  padding: 15px 15px;
+}
+.ViewEnquiry-table tbody td {
+  padding: 10px 15px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  color: #000000;
+  border-bottom: 1px solid #ccc;
+}
+
+.ViewEnquiry-left-container {
+  width: 50%;
+}
+
+.ViewEnquiry-right-container {
+  width: 50%;
+}
+
+.ViewEnquiry-inner-container {
+  display: flex;
+  padding-top: 30px;
+  height: 120px;
+}
+
+.ViewEnquiry-label-value-container label {
+  width: 160px;
+  font-family: "Roboto Slab", serif;
+  display: inline-block;
+  padding: 10px 0px 10px 20px;
+}
+
+.ViewEnquiry-label-value-colon {
+  margin-right: 20px;
+}
+
+.ViewEnquiry-label-value {
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+}
+
+.ViewEnquiry-excel-button {
+  margin-left: auto;
+  padding: 4px 20px;
+  border: none;
+  background-color: #ffffff;
+  font-family: "Roboto Slab", serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  display: block;
+}
+
+.ViewEnquiry-excel-button-container {
+  padding: 0px 20px 15px 0px;
+  text-align: right;
+}
+
+.ViewEnquiry-excel-button-container button span {
+  margin-left: 5px;
+}
+
+.ViewEnquiry-excel-button-container button > img,
+.ViewEnquiry-excel-button-container button > span {
+  vertical-align: middle;
+}
+
+.ViewEnquiry-excel-button-container button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0px 15px 20px rgba(200, 200, 200, 0.9);
+  transform: translateY(-5px);
+}

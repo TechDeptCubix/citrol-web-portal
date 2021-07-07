@@ -1,0 +1,15 @@
+.LoadingScreen-main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.LoadingScreen-main-content img {
+  display: block;
+  width: 400px;
+  margin: 0px auto;
+}
+
+.LoadingScreen-main-content p {
+  margin: 0px auto 50px;
+  font-size: 20px;
+}

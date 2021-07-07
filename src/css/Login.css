@@ -1,0 +1,245 @@
+body {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.Login-page-height {
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+}
+
+.Login-main-section {
+  position: relative;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.Login-company-icon-center {
+  height: 90px;
+  margin-top: 20px;
+}
+.Login-main-section-content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.Login-main-section-content h2 {
+  font-size: 26px;
+  color: #000000b5;
+  width: 30vw;
+  margin: 20px auto;
+  font-family: "Roboto Slab", serif;
+}
+
+.Login-main-section-content h3 {
+  color: #ffffff;
+  font-family: "Roboto Slab", serif;
+  margin: 35px auto 0px;
+}
+
+.Login-main-section-content h5 {
+  font-size: 16px;
+  color: #ffffff;
+  width: 30vw;
+  margin: 20px auto;
+  font-family: "Roboto Slab", serif;
+}
+
+.Login-form {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 18vw;
+  margin: 20px auto 50px;
+  padding-top: 30px;
+}
+
+.Login-form .Login-submit {
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  margin: 30px auto 40px;
+  padding: 5px 0px;
+  width: 12vw;
+  background-color: #c23c3c;
+  font-family: "Roboto Slab", serif;
+  cursor: pointer;
+}
+
+::placeholder {
+  font-family: "Roboto Slab", serif;
+  color: #767676;
+}
+
+.Login-form input[type="text"],
+.Login-form input[type="password"] {
+  margin: 20px auto 0;
+  width: 12vw;
+  font-size: 15px;
+  padding: 6px 12px;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+  background-color: #dbdbdb;
+  outline: none;
+  border: none;
+}
+.Login-main-login-form-container {
+  background-color: #ffffff;
+  width: 40vw;
+  margin: 40px auto 0px;
+  border: 8px solid #000000;
+}
+
+.Login-pqp-items-carousel-vehicles {
+  position: absolute;
+  top: 90px;
+}
+
+.Login-pqp-items-carousel-vehicles ul {
+  list-style: none;
+}
+
+.Login-pqp-items-carousel {
+  position: absolute;
+  top: 20vh;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+.Login-pqp-items-carousel ul {
+  list-style: none;
+}
+.Login-pqp-items-carousel li {
+  display: block;
+}
+.Login-pqp-items-carousel img {
+  border: 2px solid #fff;
+}
+
+.right_side_img_1 {
+  position: relative;
+  top: 0px;
+  left: -130px;
+  height: 300px;
+}
+
+.right_side_img_2 {
+  position: relative;
+  top: 0px;
+  left: -120px;
+  z-index: -1;
+}
+
+.right_side_img_3 {
+  position: relative;
+  top: 0px;
+  left: -70px;
+  height: 300px;
+}
+
+.right_side_img_4 {
+  position: relative;
+  top: -25px;
+  left: -65px;
+  z-index: -1;
+}
+
+.right_side_img_5 {
+  position: relative;
+  right: -120px;
+}
+.right_side_img_6 {
+  position: relative;
+  right: 10px;
+  top: 40px;
+}
+.right_side_img_7 {
+  position: relative;
+  right: -10px;
+}
+.right_side_img_8 {
+  position: relative;
+  top: 50px;
+  right: 40px;
+}
+.right_side_img_9 {
+  position: relative;
+  top: -10px;
+  right: 20px;
+}
+.Login-brand-list-container {
+  background-color: #ffffff;
+  padding: 5px 5px;
+}
+
+.Login-brand-list-container li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.Login-brand-list-container img {
+  height: 40px;
+  width: 60px;
+  object-fit: contain;
+}
+
+.Login-bottom-strip-content span {
+  font-size: 12px;
+  margin-right: 10px;
+  display: block;
+  color: #00000091;
+}
+.Login-bottom-strip-content img {
+  display: block;
+  height: 12px;
+}
+
+.Login-bottom-strip-content {
+  display: flex;
+  background-color: #c4c4c4;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+}
+
+.Login-logo-container {
+  height: 110px;
+}
+
+.Login-header-logo {
+  margin: 5px 0px 15px 25px;
+  height: 70px;
+}
+
+.Login-bg-image-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.Login-bg-image-container:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(123, 49, 49, 1) 100%
+  );
+  z-index: 0;
+}
+
+.Login-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.Login-form-error-label {
+  padding: 0px 20px 20px 20px;
+}

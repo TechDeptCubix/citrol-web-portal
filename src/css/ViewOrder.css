@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.ViewOrder-main-container {
+  border: 1px black solid;
+  margin: 40px 40px 30px 40px;
+  position: relative;
+  min-height: 800px;
+}
+
+.ViewOrder-table-container {
+  border: 1px black solid;
+  margin: 40px 40px 40px 40px;
+}
+
+.ViewOrder-main-container h4 {
+  margin-left: 20px;
+  font-family: "Roboto Slab", serif;
+}
+
+.ViewOrder-divider {
+  border-top: 1px solid #000000;
+}
+
+.ViewOrder-table {
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px !important;
+}
+.ViewOrder-table thead {
+  background-color: #e5e5e5;
+  color: #000000;
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  vertical-align: text-top;
+  outline: 1px #000000 solid;
+}
+
+.ViewOrder-table thead th {
+  padding: 15px 15px;
+}
+.ViewOrder-table tbody td {
+  padding: 20px 15px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  color: #000000;
+  border-bottom: 1px solid #000000;
+}
+
+.ViewOrder-left-container {
+  width: 50%;
+}
+
+.ViewOrder-right-container {
+  width: 50%;
+}
+
+.ViewOrder-inner-container {
+  display: flex;
+  padding-top: 30px;
+  min-height: 130px;
+}
+
+.ViewOrder-label-value-container label {
+  width: 160px;
+  font-family: "Roboto Slab", serif;
+  display: inline-block;
+  padding: 10px 0px 10px 20px;
+  color: #000000;
+  font-weight: 500;
+}
+
+.ViewOrder-label-value-colon {
+  margin-right: 20px;
+}
+
+.ViewOrder-label-value {
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+}
+
+.ViewOrder-Qty-Avl-Col {
+  text-align: center;
+}
+
+.ViewOrder-Qty-Avl-Col-Head-First {
+  text-align: center;
+  border-top: 1px black solid;
+  border-right: 1px black solid;
+}
+
+.ViewOrder-Qty-Avl-Col-Head {
+  text-align: center;
+  border-top: 1px black solid;
+}
+
+.ViewOrder-excel-button {
+  margin-left: auto;
+  padding: 4px 20px;
+  border: none;
+  background-color: #ffffff;
+  font-family: "Roboto Slab", serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  display: block;
+}
+
+.ViewOrder-excel-button-container {
+  padding: 0px 20px 15px 0px;
+  text-align: right;
+}
+
+.ViewOrder-excel-button-container button span {
+  margin-left: 5px;
+}
+
+.ViewOrder-excel-button-container button > img,
+.ViewOrder-excel-button-container button > span {
+  vertical-align: middle;
+}
+
+.ViewOrder-excel-button-container button:hover {
+  background-color: #f8f8f8;
+  box-shadow: 0px 15px 20px rgba(200, 200, 200, 0.9);
+  transform: translateY(-5px);
+}

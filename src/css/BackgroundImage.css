@@ -1,0 +1,56 @@
+.BackgroundImage-bg-image {
+  position: absolute;
+  height: 300px;
+  bottom: 0;
+  right: 0;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.BackgroundImage-bg-image-gradient-overlay {
+  height: 300px;
+  width: 310px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.BackgroundImage-bg-image-gradient-overlay-two {
+  height: 310px;
+  width: 300px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.BackgroundImage-bg-image-gradient-overlay:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 0;
+}
+
+.BackgroundImage-bg-image-gradient-overlay-two:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 0;
+}

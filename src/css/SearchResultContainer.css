@@ -1,0 +1,21 @@
+.SearchResultContainer-main {
+  background-color: #e2e2e2;
+  padding: 1px;
+  width: 30vw;
+  margin-left: 0px;
+  position: absolute;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.SearchResultContainer-main ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.SearchResultContainer-main ul li {
+  background-color: #efefef;
+  padding: 10px 20px;
+  margin: 1px 0px;
+}
