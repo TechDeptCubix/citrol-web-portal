@@ -64,19 +64,8 @@ function CreateEnquiryTableRow(props) {
           className="CreateEnquiry-quantity-input-box"
         />
       </td>
-      <td>
-        {rowValues.supported_items ? (
-          <button
-            className="CreateEnquiry-supersed-check-button"
-            onClick={showHideSupportedItemsPopup}
-          >
-            Check
-          </button>
-        ) : (
-          "no suppored items"
-        )}
-      </td>
-      <td>{"supported from"}</td>
+      <td>{rowValues.unit_price}</td>
+      <td>{parseInt(rowValues.qty, 10) > 0 ? rowValues.item_amount : 0}</td>
       <td>
         <input
           id={rowValues.id}

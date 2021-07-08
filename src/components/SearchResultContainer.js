@@ -91,6 +91,7 @@ function SearchResultContainer(props) {
               onClick={handleListItemClick}
               data-code={item.code}
               data-description={item.description}
+              data-price={item.price}
               ref={(ref) => liArrayPositionRef.push(ref)}
             >
               <div>{item.code}</div>

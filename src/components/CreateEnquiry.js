@@ -17,6 +17,7 @@ function CreateEnquiry() {
   const addItemRef = useRef();
   const sentEnquiryRef = useRef();
   const draftEnquiryRef = useRef();
+  const totalAmountRef = useRef();
   const inputRef = useRef();
   const [numberORowsInTable, setNumberORowsInTable] = useState(1);
 
@@ -78,6 +79,8 @@ function CreateEnquiry() {
     description: "",
     qty: "",
     unit_price: "",
+    item_amount: 0,
+    total_amount: 555,
     account: "",
     c1: "",
     c2: "",
@@ -193,6 +196,8 @@ function CreateEnquiry() {
             description: item.description,
             qty: item.req_ty,
             unit_price: "",
+            item_amount: 0,
+            total_amount: 77,
             account: "",
             c1: "",
             c2: "",
@@ -278,15 +283,57 @@ function CreateEnquiry() {
       if (item.id == e.target.id) {
         console.log(" inside item.id == e.target.id");
 
-        // here we will place value of item code from API instead of e.target.value
-        return { ...item, [e.target.name]: e.target.value };
+        if (e.target.name == "qty") {
+          let qtyValue = 0;
+
+          if (isNaN(parseInt(e.target.value, 10))) {
+            qtyValue = 0;
+          } else {
+            qtyValue = parseInt(e.target.value, 10);
+          }
+
+          let unitPricevalue = parseInt(item.unit_price, 10);
+          console.log("qtyValue and unitPriceValue ", qtyValue, unitPricevalue);
+          // if quantity is changed then calculate value of amount and  set to state
+          return {
+            ...item,
+            [e.target.name]: e.target.value,
+            item_amount: qtyValue * unitPricevalue,
+          };
+        } else {
+          // if code is changed then no need to change amount
+          return { ...item, [e.target.name]: e.target.value };
+        }
       } else {
         console.log(" item not matching , e.target.id is", e.target.id);
         return item;
       }
     });
 
-    console.log(JSON.stringify(updatedTableRows));
+    console.log(
+      "after total amount value updated json ",
+      JSON.stringify(updatedTableRows)
+    );
+
+    // after every row is changed ( ie qty is changed so item amount will change) then we will find sum of amounts to get
+    // total_amount and set that total_amount to innerHTML of total_amount_value span element
+    // then at the time of sentEnquiry method take innerHTML value of total_amount_value span and set to total_amount key of every row
+    // in the case of draft we sent 0 for total_amount
+
+    let total_amount_after_changing_quantity = updatedTableRows.reduce(
+      (accumulator, currentValue) => {
+        if (currentValue.item_amount != null) {
+          console.log("current value reducer not null ", currentValue);
+          return accumulator + currentValue.item_amount;
+        } else {
+          console.log("current value reducer null ", currentValue);
+          return accumulator + 0;
+        }
+      },
+      0
+    );
+
+    totalAmountRef.current.innerHTML = total_amount_after_changing_quantity;
 
     setPageValues({
       ...pageValues,
@@ -407,7 +454,7 @@ function CreateEnquiry() {
           code: item.code,
           description: item.description,
           qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
-          unit_price: 0,
+          unit_price: item.unit_price,
           account: "",
           c1: currentUser.user,
           c2: "",
@@ -462,6 +509,7 @@ function CreateEnquiry() {
           ...item,
           code: e.currentTarget.dataset.code,
           description: e.currentTarget.dataset.description,
+          unit_price: e.currentTarget.dataset.price,
         };
       } else {
         console.log(
@@ -632,12 +680,8 @@ function CreateEnquiry() {
                 <th>Part Number</th>
                 <th>Description</th>
                 <th>Quantity</th>
-                <th>
-                  Supported <br /> Items
-                </th>
-                <th>
-                  Supported Items <br /> From
-                </th>
+                <th>Unit Price</th>
+                <th>Amount</th>
                 <th>Select</th>
               </tr>
             </thead>
@@ -666,6 +710,13 @@ function CreateEnquiry() {
                 : "zero array size length"}
             </tbody>
           </table>
+          <div className="CreateEnquiry-total-amount-container">
+            <span className="CreateEnquiry-total-label">Total</span>{" "}
+            <span
+              className="CreateEnquiry-total-value"
+              ref={totalAmountRef}
+            ></span>
+          </div>
         </div>
         <button
           className="CreateEnquiry-add-another-item-button"
