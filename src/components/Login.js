@@ -221,7 +221,7 @@ function Login(props) {
       <div className="Login-main-section">
         <div className="Login-main-section-content">
           <div className="Login-main-login-form-container">
-            <Link to="/home">
+            <Link>
               <img
                 src={logo}
                 className="Login-company-icon-center"

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import icDelete from "../img/ic_delete_selected.png";
 import icDownloadToEcel from "../img/ic_download_to_excel.png";
-import icUploadFromExcel from "../img/ic_upload_from_excel.png";
 import "../css/CreateEnquiry.css";
 import SupportedItemsPopup from "./SupportedItemsPopup";
 import SuccessPopup from "./SuccessPopup";
@@ -11,8 +10,10 @@ import { useLocation } from "react-router-dom";
 import CreateEnquiryTableRow from "./CreateEnquiryTableRow";
 import axios from "axios";
 import ConfirmationPopup from "./ConfirmationPopup";
+import ExcelReader from "./ExcelReader";
 
 function CreateEnquiry() {
+  let xlsx = require("json-as-xlsx");
   const tbodyRef = useRef();
   const addItemRef = useRef();
   const sentEnquiryRef = useRef();
@@ -20,6 +21,9 @@ function CreateEnquiry() {
   const totalAmountRef = useRef();
   const inputRef = useRef();
   const [numberORowsInTable, setNumberORowsInTable] = useState(1);
+  const [joinTwoArrays, setJoinTwoArrays] = useState(0);
+
+  const tableRowArrayPositionRef = new Array();
 
   let liRefArray = useRef([]);
   // get company code
@@ -195,8 +199,10 @@ function CreateEnquiry() {
             code: item.code,
             description: item.description,
             qty: item.req_ty,
-            unit_price: "",
-            item_amount: 0,
+            // unit_price: 2.01  item.unit_Price,
+            unit_price: 2.01,
+            // item_amount: item.req_ty * item.unit_Price,
+            item_amount: parseFloat((item.req_ty * 2.01).toFixed(2)),
             total_amount: 77,
             account: "",
             c1: "",
@@ -216,12 +222,17 @@ function CreateEnquiry() {
           return newItemObject;
         });
 
+        console.log(
+          "updatedTableRows after taking value from previous draft ",
+          updatedTableRows
+        );
         setPageValues({
           ...pageValues,
           reference: dataFromEnquiry.reference,
           remarks: res.data[0].ord_H_remarks,
           table_row_values: updatedTableRows,
         });
+        setJoinTwoArrays((prev) => prev + 1);
       })
       .catch((e) => {
         console.log(" Cubix Get revious Draft Response Failure" + e);
@@ -287,18 +298,18 @@ function CreateEnquiry() {
           let qtyValue = 0;
 
           if (isNaN(parseInt(e.target.value, 10))) {
-            qtyValue = 0;
+            console.log("entered thing isNaN");
+            qtyValue = "";
           } else {
+            console.log("entered thing not isNaN");
             qtyValue = parseInt(e.target.value, 10);
           }
 
-          let unitPricevalue = parseInt(item.unit_price, 10);
-          console.log("qtyValue and unitPriceValue ", qtyValue, unitPricevalue);
-          // if quantity is changed then calculate value of amount and  set to state
+          //we directly multiplied unitPricevalue because from API we get it without double quotes, so not a string
           return {
             ...item,
-            [e.target.name]: e.target.value,
-            item_amount: qtyValue * unitPricevalue,
+            [e.target.name]: qtyValue,
+            item_amount: parseFloat((qtyValue * item.unit_price).toFixed(2)),
           };
         } else {
           // if code is changed then no need to change amount
@@ -323,7 +334,11 @@ function CreateEnquiry() {
     let total_amount_after_changing_quantity = updatedTableRows.reduce(
       (accumulator, currentValue) => {
         if (currentValue.item_amount != null) {
-          console.log("current value reducer not null ", currentValue);
+          console.log(
+            "current value reducer not null accumulator and current value  ",
+            accumulator,
+            currentValue
+          );
           return accumulator + currentValue.item_amount;
         } else {
           console.log("current value reducer null ", currentValue);
@@ -333,7 +348,9 @@ function CreateEnquiry() {
       0
     );
 
-    totalAmountRef.current.innerHTML = total_amount_after_changing_quantity;
+    console.log("current value reducer ", total_amount_after_changing_quantity);
+    totalAmountRef.current.innerHTML =
+      total_amount_after_changing_quantity.toFixed(2);
 
     setPageValues({
       ...pageValues,
@@ -379,10 +396,12 @@ function CreateEnquiry() {
       ...pageValues,
       table_row_values: updatedTableRowsAfterDeletion,
     });
+    setJoinTwoArrays((prev) => prev + 1);
   };
 
   const draftEnquiry = () => {
-    let uniqueKeyForEnquiry = currentUser.user + "-" + timeWhenEntryIsMade;
+    let uniqueKeyForEnquiry =
+      currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
     let companyCodeForEnquiry = currentCompany.company_code;
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
@@ -400,7 +419,7 @@ function CreateEnquiry() {
           code: item.code,
           description: item.description,
           qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
-          unit_price: 0,
+          unit_price: item.unit_price,
           account: "",
           c1: currentUser.user,
           c2: "",
@@ -438,7 +457,8 @@ function CreateEnquiry() {
   };
 
   const sentEnquiry = () => {
-    let uniqueKeyForEnquiry = currentUser.user + "-" + timeWhenEntryIsMade;
+    let uniqueKeyForEnquiry =
+      currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
     let companyCodeForEnquiry = currentCompany.company_code;
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
@@ -509,7 +529,7 @@ function CreateEnquiry() {
           ...item,
           code: e.currentTarget.dataset.code,
           description: e.currentTarget.dataset.description,
-          unit_price: e.currentTarget.dataset.price,
+          unit_price: 2.01, //UnitPriceChanged e.currentTarget.dataset.price,
         };
       } else {
         console.log(
@@ -633,8 +653,174 @@ function CreateEnquiry() {
     }
   };
 
+  const saveTableRowListRef = (arrayOTableRows) => {
+    if (arrayOTableRows) {
+      if (arrayOTableRows.length > 0) {
+        tableRowArrayPositionRef = arrayOTableRows;
+        console.log("table row ref array in parent");
+      }
+    } else {
+      console.log("table row ref array in parent is null");
+    }
+  };
+
+  const downloadToExcel = () => {
+    let uniqueKeyForEnquiry =
+      currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
+
+    console.log("before download to excel values", pageValues.table_row_values);
+    let referenceForEnquiry = pageValues.reference;
+    let remarksForEnquiry = pageValues.remarks;
+    let postArrayForDownloadToExcel = pageValues.table_row_values
+      .filter((item) => !(item.code.trim() === "") && item.qty > 0)
+      .map((item, index) => {
+        return {
+          sl_no: index + 1,
+          ord_Id: dataFromEnquiry
+            ? dataFromEnquiry.enquiry_number
+            : uniqueKeyForEnquiry,
+          ord_date: dataFromEnquiry ? dataFromEnquiry.date : today,
+          ord_ref: referenceForEnquiry,
+          ord_rem: remarksForEnquiry,
+          code: item.code,
+          description: item.description,
+          qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
+          unit_price: item.unit_price,
+          item_amount: item.item_amount,
+          account: "",
+          c1: currentUser.user,
+          c2: "",
+          c3: "",
+          c4: dataFromEnquiry ? "MODIFY" : "NEW",
+          n1: 0,
+          n2: 0,
+          n3: 0,
+          d1: "",
+          d2: "",
+        };
+      });
+
+    if (!postArrayForDownloadToExcel.length > 0) {
+      postArrayForDownloadToExcel = [
+        {
+          sl_no: 1,
+          ord_Id: "",
+          ord_date: "",
+          ord_ref: "",
+          ord_rem: "",
+          code: "",
+          description: "",
+          qty: 0, // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
+          unit_price: 0,
+          item_amount: 0,
+        },
+      ];
+    }
+
+    let data = [
+      {
+        sheet: "Create Enquiry",
+        columns: [
+          // eg "user" in column should be same as user in content else that column will be blank
+          { label: "Sl. No.", value: "sl_no" }, // Top level data // value : "user" should be same as content key double quotes required
+          { label: "Part Number", value: "code" }, // Run functions
+          { label: "Description", value: "description" },
+          { label: "Quantity", value: "qty" },
+          { label: "Unit Price", value: "unit_price" },
+          { label: "Amount", value: "item_amount" }, // Deep props
+        ],
+        content: postArrayForDownloadToExcel,
+      },
+    ];
+
+    let settings = {
+      fileName: uniqueKeyForEnquiry, // Name of the spreadsheet
+      extraLength: 3, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    };
+
+    xlsx(data, settings); // Will download the excel file
+  };
+
+  const getJsonDataFromExcel = (jsonFromExcel) => {
+    console.log("json from excel ", jsonFromExcel);
+
+    let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
+      (item) => !(item.code.trim() === "") && item.qty > 0
+    );
+    let updatedTableRows = jsonFromExcel.map((item, index) => {
+      let newItemObject = {
+        id: filteredOutEmptyTableRows.length + index + 1,
+        cmpcode: "",
+        ord_Id: "",
+        ord_date: "",
+        ord_ref: "",
+        ord_rem: "",
+        code: item["Part Number"],
+        description: item.Description,
+        qty: item.Quantity,
+        unit_price: item["Unit Price"],
+        item_amount: item.Amount,
+        account: "",
+        c1: "",
+        c2: "",
+        c3: "",
+        c4: "",
+        n1: 0,
+        n2: 0,
+        n3: 0,
+        d1: "",
+        d2: "",
+        supported_items: item.supporteditem,
+        supported_items_from: "",
+        select_check_box: false,
+      };
+
+      return newItemObject;
+    });
+    console.log("hello updatedTableRows  ", updatedTableRows);
+
+    setPageValues({
+      ...pageValues,
+      table_row_values: [...filteredOutEmptyTableRows, ...updatedTableRows],
+    });
+
+    setJoinTwoArrays((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    console.log("after joining 2 arrays", pageValues.table_row_values);
+    // find total and show in html total span
+    let total_amount_after_changing_quantity =
+      pageValues.table_row_values.reduce((accumulator, currentValue) => {
+        if (currentValue.item_amount != null) {
+          console.log("current value reducer not null ", currentValue);
+          return accumulator + currentValue.item_amount;
+        } else {
+          console.log("current value reducer null ", currentValue);
+          return accumulator + 0;
+        }
+      }, 0);
+    console.log(
+      "current value reducer total [joinTwoArrays]",
+      total_amount_after_changing_quantity
+    );
+    totalAmountRef.current.innerHTML =
+      total_amount_after_changing_quantity.toFixed(2);
+  }, [joinTwoArrays]);
+
+  useEffect(() => {
+    console.log("table row reference array ", tableRowArrayPositionRef);
+  }, [pageValues.table_row_values]);
+
   return (
     <div onClick={handleWholePageClick}>
+      {
+        //after setting state , clear any previous table row reference from the array
+        tableRowArrayPositionRef.length > 0
+          ? (tableRowArrayPositionRef = new Array())
+          : null
+      }
       <div className="CreateEnquiry-main-container">
         <h4>Create Enquiry</h4>
         <hr className="CreateEnquiry-divider" />
@@ -650,6 +836,7 @@ function CreateEnquiry() {
           />
           <label>Enter Your Remarks</label>
           <input
+            className="remarks-input"
             name="remarks"
             type="text"
             onChange={handleInput}
@@ -658,11 +845,9 @@ function CreateEnquiry() {
         </div>
 
         <div className="CreateEnquiry-excel-button-container">
-          <button>
-            <img alt="upload from excel" src={icUploadFromExcel} />{" "}
-            <span>Upload From Excel</span>
-          </button>
-          <button>
+          <ExcelReader getJsonDataFromExcel={getJsonDataFromExcel} />
+
+          <button onClick={downloadToExcel}>
             <img alt="download to excel" src={icDownloadToEcel} />{" "}
             <span>Download To Excel</span>
           </button>
@@ -679,7 +864,7 @@ function CreateEnquiry() {
                 <th>Sl.No.</th>
                 <th>Part Number</th>
                 <th>Description</th>
-                <th>Quantity</th>
+                <th className="Create-enquiry-qty">Quantity</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
                 <th>Select</th>
@@ -704,6 +889,7 @@ function CreateEnquiry() {
                         handleQtykeyDown={handleQtykeyDown}
                         saveSearchListRef={saveSearchListRef}
                         handleListItemClick={handleListItemClick}
+                        ref={(ref) => tableRowArrayPositionRef.push(ref)}
                       />
                     );
                   })

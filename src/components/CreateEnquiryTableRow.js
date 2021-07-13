@@ -55,18 +55,25 @@ function CreateEnquiryTableRow(props) {
       <td>
         <input
           id={rowValues.id}
-          type="text"
+          min="1"
+          type="number"
           name="qty"
           autoComplete="off"
           value={rowValues.qty}
           onChange={handleInputFromRow}
           onKeyDown={handleQtykeyDown}
-          className="CreateEnquiry-quantity-input-box"
+          className="Create-enquiry-input-unit-price "
         />
       </td>
-      <td>{rowValues.unit_price}</td>
-      <td>{parseInt(rowValues.qty, 10) > 0 ? rowValues.item_amount : 0}</td>
-      <td>
+      <td className="Create-enquiry-input-unit-price">
+        {rowValues.unit_price}
+      </td>
+      <td className="Create-enquiry-input-unit-price">
+        {
+          rowValues.item_amount /* {parseInt(rowValues.qty, 10) > 0 ? rowValues.item_amount : 0} */
+        }
+      </td>
+      <td className="Create-enquiry-select-box">
         <input
           id={rowValues.id}
           type="checkbox"

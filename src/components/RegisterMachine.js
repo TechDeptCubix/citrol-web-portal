@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import "../css/SystemRegister.css";
-import logo from "../img/premier_logo.png";
+import "../css/Login.css";
+import logo from "../img/citrol-logo-transparent.png";
 import backgroundImageLogin from "../img/backgroundImageLogin.png";
 import loginBgImage2 from "../img/login_bg_image-2.jpg";
 import cubix_logo from "../img/cubix_logo.png";
@@ -17,6 +17,7 @@ import image_8_login from "../img/image_8_login.png";
 import image_9_login from "../img/image_9_login.png";
 import axios from "axios";
 import { AppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
 
 function RegisterMachine(props) {
   const { state, changeCompanyCodeStatus } = useContext(AppContext);
@@ -175,108 +176,125 @@ function RegisterMachine(props) {
 
   return (
     <div className="Login-page-height">
-      <div className="Login-logo-container">
-        <img alt="placeholder" src={logo} className="Login-header-logo" />
-      </div>
-
       <div className="Login-main-section">
-        <div className="Login-bg-image-container">
-          <img
-            alt="placeholder"
-            src={backgroundImageLogin}
-            className="Login-image-bg-first"
-          />
-          <img
-            alt="placeholder"
-            src={loginBgImage2}
-            className="Login-image-bg-second"
-          />
-        </div>
-
         <div className="Login-main-section-content">
-          <h2>Welcome to Premier’s e-procurement</h2>
-          <h5>Register Machine</h5>
-          <form className="Login-form">
-            <input
-              type="text"
-              name="company_name"
-              placeholder="Enter Company Name"
-              value={values.company_name}
-              onChange={handleInputChange}
-            />
+          <div className="Login-main-login-form-container">
+            <Link>
+              <img
+                src={logo}
+                className="Login-company-icon-center"
+                alt="logo"
+              />
+            </Link>
+            <h2>The Ultimate Lube</h2>
+            <form className="Login-form">
+              <input
+                type="text"
+                name="company_name"
+                placeholder="Enter Company Name"
+                value={values.company_name}
+                onChange={handleInputChange}
+              />
 
-            <input
-              type="text"
-              name="company_code"
-              placeholder="Enter Company Code"
-              value={values.userpassword}
-              onChange={handleInputChange}
-            />
+              <input
+                type="text"
+                name="company_code"
+                placeholder="Enter Company Code"
+                value={values.userpassword}
+                onChange={handleInputChange}
+              />
 
-            <input
-              type="text"
-              name="system_key"
-              placeholder="Enter System Key"
-              value={values.system_key}
-              onChange={handleInputChange}
-            />
+              <input
+                type="text"
+                name="system_key"
+                placeholder="Enter System Key"
+                value={values.system_key}
+                onChange={handleInputChange}
+              />
 
-            <input
-              type="button"
-              value="REGISTER"
-              className="Login-submit"
-              disabled={isSending}
-              onClick={sendRequest}
-            />
-            <label className="Login-form-error-label">{values.error}</label>
-          </form>
-          <div className="Login-pqp-items-carousel">
+              <input
+                type="button"
+                value="REGISTER"
+                className="Login-submit"
+                disabled={isSending}
+                onClick={sendRequest}
+              />
+              <label className="Login-form-error-label">{values.error}</label>
+            </form>
+          </div>
+          <div className="Login-pqp-items-carousel-vehicles">
             <ul>
               <li>
-                <img alt="placeholder" src={image_1_login} />
+                <div>
+                  <img
+                    alt="placeholder"
+                    src={image_1_login}
+                    className="right_side_img_1"
+                  />
+                  <img
+                    alt="placeholder"
+                    src={image_2_login}
+                    className="right_side_img_2"
+                  />
+                </div>
               </li>
               <li>
-                <img alt="placeholder" src={image_2_login} />
-              </li>
-              <li>
-                <img alt="placeholder" src={image_3_login} />
-              </li>
-              <li>
-                <img alt="placeholder" src={image_4_login} />
-              </li>
-              <li>
-                <img alt="placeholder" src={image_5_login} />
+                <div>
+                  <img
+                    alt="placeholder"
+                    src={image_3_login}
+                    className="right_side_img_3"
+                  />
+                  <img
+                    alt="placeholder"
+                    src={image_4_login}
+                    className="right_side_img_4"
+                  />
+                </div>
               </li>
             </ul>
           </div>
 
-          <div className="Login-bottom-bar">
-            <div className="Login-brand-list-container">
-              <ul>
-                <li>
-                  <div>
-                    <img alt="placeholder" src={image_5_login} />
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <img alt="placeholder" src={image_6_login} />
-                    <img alt="placeholder" src={image_7_login} />
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <img alt="placeholder" src={image_8_login} />
-                    <img alt="placeholder" src={image_9_login} />
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div className="Login-bottom-strip-content">
-              {" "}
-              <span>powered by </span>
-              <img alt="placeholder" src={cubix_logo} />
-            </div>
+          <div className="Login-pqp-items-carousel">
+            <ul>
+              <li>
+                <div>
+                  <img
+                    alt="placeholder"
+                    src={image_5_login}
+                    className="right_side_img_5"
+                  />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img
+                    alt="placeholder"
+                    src={image_6_login}
+                    className="right_side_img_6"
+                  />
+                  <img
+                    alt="placeholder"
+                    src={image_7_login}
+                    className="right_side_img_7"
+                  />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <img
+                    alt="placeholder"
+                    src={image_8_login}
+                    className="right_side_img_8"
+                  />
+                  <img
+                    alt="placeholder"
+                    src={image_9_login}
+                    className="right_side_img_9"
+                  />
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

@@ -8,6 +8,14 @@ import LogoutPopup from "../components/LogoutPopup";
 import axios from "axios";
 
 function Header() {
+  //get username
+  let current_company = localStorage.getItem("current_company");
+  let currentCompany;
+  if (current_company) {
+    currentCompany = JSON.parse(current_company);
+
+    console.log("current_machineguid value is  ", currentCompany);
+  }
   const initialCreditAndBalance = [
     {
       credit_limit: 5,
@@ -71,22 +79,6 @@ function Header() {
         </Link>
 
         <div className="Header-balance-statistics-container">
-          <div className="Header-credit-balance-container">
-            <div>
-              <span className="Header-balance-label">Credit Limit </span> :{" "}
-              <span className="Header-balance-value">
-                {creditAndBalance[0].credit_limit}
-              </span>{" "}
-            </div>
-            <div>
-              <span className="Header-balance-label">Balance</span> :{" "}
-              <span className="Header-balance-value">
-                {" "}
-                {creditAndBalance[0].balance}{" "}
-              </span>{" "}
-            </div>
-          </div>
-
           <div className="Header-statistics-container">
             <div className="Header-statistics-container-child">
               <div className="Header-statistics-container-child-div-1">
@@ -110,6 +102,23 @@ function Header() {
               </div>
             </div>
           </div>
+
+          <div className="Header-credit-balance-container">
+            <label>{currentCompany ? currentCompany.company_name : ""}</label>
+            <div>
+              <span className="Header-balance-label">Credit Limit </span> :{" "}
+              <span className="Header-balance-value">
+                {creditAndBalance[0].credit_limit}
+              </span>{" "}
+            </div>
+            <div>
+              <span className="Header-balance-label">Balance</span> :{" "}
+              <span className="Header-balance-value">
+                {" "}
+                {creditAndBalance[0].balance}{" "}
+              </span>{" "}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -131,83 +140,15 @@ function Header() {
             <Link
               to="/createEnquiry"
               className={
-                splitLocation[1] === "createEnquiry" ||
-                splitLocation[1] === "listOfEnquiry" ||
-                splitLocation[1] === "listOfOrder" ||
-                splitLocation[1] === "listOfReturn" ||
-                splitLocation[1] === "viewEnquiry" ||
-                splitLocation[1] === "orderPlacing" ||
-                splitLocation[1] === "viewOrder" ||
-                splitLocation[1] === "returnRequest" ||
-                splitLocation[1] === "viewReturnRequest"
+                splitLocation[1] === "createEnquiry"
                   ? "Header-navLink-main-menu active"
                   : "Header-navLink-main-menu"
               }
             >
-              Order &amp; Tracking{" "}
-              <img
-                src={ic_dropdown_arrow}
-                className="Header-dropdown-arrow-icon"
-                alt="drop down arrow"
-              />
+              Create Enquiry{" "}
             </Link>
-            <ul
-              className={
-                visibilityOfOrderDropDown === "none"
-                  ? "Header-nav-orderAndtracking-subMenu"
-                  : "Header-nav-orderAndtracking-subMenu Header-show-drop-down"
-              }
-            >
-              <li className="Header-orderAndtracking-navList-item">
-                <Link to="/createEnquiry" className="Header-navLink">
-                  Create Enquiry
-                </Link>
-              </li>
-
-              <li className="Header-orderAndtracking-navList-item">
-                <Link to="/listOfEnquiry" className="Header-navLink">
-                  List of Enquiry
-                </Link>
-              </li>
-              <li className="Header-orderAndtracking-navList-item">
-                <Link to="/listOfOrder" className="Header-navLink">
-                  List of Order
-                </Link>
-              </li>
-              <li className="Header-orderAndtracking-navList-item">
-                <Link to="/listOfReturn" className="Header-navLink">
-                  List of Return
-                </Link>
-              </li>
-            </ul>
           </li>
 
-          <li>
-            <Link
-              to="/viewOrderStatistics"
-              className={
-                splitLocation[1] === "viewOrderStatistics" ? "active" : ""
-              }
-            >
-              View Order Statistics
-            </Link>{" "}
-          </li>
-          <li>
-            <Link
-              to="/help"
-              className={splitLocation[1] === "help" ? "active" : ""}
-            >
-              Help
-            </Link>{" "}
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              className={splitLocation[1] === "contact" ? "active" : ""}
-            >
-              Contact
-            </Link>{" "}
-          </li>
           <li className="Header-nav-logout" onClick={showLogoutPopup}>
             Logout
           </li>

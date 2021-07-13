@@ -24,7 +24,6 @@
   padding: 8px 18px 0px 16px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #000000;
 }
 
 .Header-credit-balance-container div {
@@ -32,6 +31,12 @@
   /* font-family: "Roboto Slab", serif; */
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+}
+
+.Header-credit-balance-container label {
+  color: #000;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
 }
 
 .Header-statistics-container {
@@ -73,13 +78,16 @@
 .Header-balance-label {
   width: 120px;
   display: inline-block;
-  font-size: 18px;
+  font-size: 14px;
   /* font-family: "Roboto Slab", serif; */
   font-family: "Poppins", sans-serif;
+  color: #4d4d4d;
 }
 
 .Header-balance-value {
   margin-left: 20px;
+  font-size: 14px;
+  color: #4d4d4d;
 }
 
 .Header-nav > ul > li {
