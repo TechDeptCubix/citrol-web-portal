@@ -108,14 +108,15 @@ function Header() {
             <div>
               <span className="Header-balance-label">Credit Limit </span> :{" "}
               <span className="Header-balance-value">
-                {creditAndBalance[0].credit_limit}
+                {creditAndBalance[0] ? creditAndBalance[0].credit_limit : ""}
               </span>{" "}
             </div>
             <div>
               <span className="Header-balance-label">Balance</span> :{" "}
               <span className="Header-balance-value">
                 {" "}
-                {creditAndBalance[0].balance}{" "}
+                
+                {creditAndBalance[0] ? creditAndBalance[0].balance : ""}
               </span>{" "}
             </div>
           </div>

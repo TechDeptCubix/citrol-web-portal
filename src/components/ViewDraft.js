@@ -36,6 +36,9 @@ function ViewDraft() {
 
   useEffect(() => {
     const apiUrl = `http://185.140.249.224:26/api/EnquiryDraft/${dataFromEnquiry.enquiryNumber}/${dataFromEnquiry.companyCodeForView}`;
+
+    console.log("API View Draft ",apiUrl );
+    
     axios
       .get(apiUrl)
       .then((res) => {
@@ -200,6 +203,7 @@ function ViewDraft() {
             <tr>
               <th>Sl.No.</th>
               <th>Part Number</th>
+              <th>Package</th>
               <th>Description</th>
               <th>Qty Req</th>
               <th>Unit Price</th>
@@ -213,6 +217,7 @@ function ViewDraft() {
                   {console.log(" enquiry item ", item)}
                   <td>{index + 1}</td>
                   <td>{item.code}</td>
+                  <td>{item.group}</td>
                   <td>{item.description}</td>
                   <td>{item.req_ty}</td>
                   <td>{item.unit_Price}</td>

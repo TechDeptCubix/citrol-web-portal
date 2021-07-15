@@ -198,6 +198,7 @@ function ViewEnquiry() {
             <tr>
               <th>Sl.No.</th>
               <th>Part Number</th>
+              <th>Package</th>
               <th>Description</th>
               <th>Qty Req</th>
               <th>Unit Price</th>
@@ -211,6 +212,7 @@ function ViewEnquiry() {
                   {console.log(" enquiry item ", item)}
                   <td>{index + 1}</td>
                   <td>{item.code}</td>
+                  <td>{item.group}</td>
                   <td>{item.description}</td>
                   <td>{item.req_ty}</td>
                   <td>{item.unit_Price}</td>

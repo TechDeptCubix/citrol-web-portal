@@ -99,6 +99,7 @@ function CreateEnquiry() {
     supported_items_from: "",
     select_check_box: false,
     is_valid_item: false,
+    group:""
   };
 
   console.log(
@@ -200,10 +201,8 @@ function CreateEnquiry() {
             code: item.code,
             description: item.description,
             qty: item.req_ty,
-            // unit_price: 2.01  item.unit_Price,
-            unit_price: 2.01,
-            // item_amount: item.req_ty * item.unit_Price,
-            item_amount: parseFloat((item.req_ty * 2.01).toFixed(2)),
+            unit_price: item.unit_Price,
+            item_amount: parseFloat((item.req_ty * item.unit_Price).toFixed(2)),
             total_amount: 77,
             account: "",
             c1: "",
@@ -423,7 +422,9 @@ function CreateEnquiry() {
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
 
-    const postArrayForEnquiryDraft = pageValues.table_row_values
+    console.log("our data before drafting ", pageValues.table_row_values)
+
+    const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
       .map((item) => {
         return {
           cmpcode: companyCodeForEnquiry,
@@ -449,7 +450,7 @@ function CreateEnquiry() {
           d2: "",
         };
       })
-      .filter((item) => !(item.code.trim() === "") && item.qty > 0);
+      .filter((item) => !(item.code.trim() === "") && (item.qty > 0 ) );
 
     const apiUrL = "http://185.140.249.224:26/api/EnquiryDraft";
 
@@ -480,7 +481,7 @@ function CreateEnquiry() {
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
 
-    const postArrayForEnquiryDraft = pageValues.table_row_values
+    const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
       .map((item) => {
         return {
           cmpcode: companyCodeForEnquiry,
@@ -509,7 +510,7 @@ function CreateEnquiry() {
     const apiUrL = "http://185.140.249.224:26/api/Enquiry";
 
     console.log(
-      "Jsonified original json",
+      "Jsonified original json sent enquiry ",
       JSON.stringify(postArrayForEnquiryDraft)
     );
 
@@ -546,8 +547,9 @@ function CreateEnquiry() {
         return {
           ...item,
           code: e.currentTarget.dataset.code,
+          group: e.currentTarget.dataset.group,
           description: e.currentTarget.dataset.description,
-          unit_price: 2.01, //UnitPriceChanged e.currentTarget.dataset.price,
+          unit_price: e.currentTarget.dataset.price,
           is_valid_item: true,
         };
       } else {
@@ -830,7 +832,7 @@ function CreateEnquiry() {
         } else {
           setIsValidCodeState(false);
           console.log("onblur gone out of input now bring focus back to him");
-          e.target.focus();
+          //e.target.focus();
         }
       }
     });

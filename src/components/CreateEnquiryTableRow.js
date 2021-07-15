@@ -44,6 +44,7 @@ function CreateEnquiryTableRow(props) {
             onKeyDown={handleKeyboardArrowDown}
             onBlur={checkWhetherValidCode}
           />
+          {/* {rowValues.code <img src=""/>} */}
           {isUserSearching && rowValues.id == currentCodeInputBox && (
             <SearchResultContainer
               style={{ position: "relative", zIndex: "2" }}
