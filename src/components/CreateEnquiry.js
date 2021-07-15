@@ -22,8 +22,8 @@ function CreateEnquiry() {
   const inputRef = useRef();
   const [numberORowsInTable, setNumberORowsInTable] = useState(1);
   const [joinTwoArrays, setJoinTwoArrays] = useState(0);
-
-  const tableRowArrayPositionRef = new Array();
+  const isItemCodeValidRef = useRef(false);
+  const [isValidCodeState, setIsValidCodeState] = useState(true);
 
   let liRefArray = useRef([]);
   // get company code
@@ -98,6 +98,7 @@ function CreateEnquiry() {
     supported_items: false,
     supported_items_from: "",
     select_check_box: false,
+    is_valid_item: false,
   };
 
   console.log(
@@ -276,6 +277,7 @@ function CreateEnquiry() {
   const handleInputFromRow = (e) => {
     console.log("inside handleInputFromRow ", e.target.name, e.target.value);
 
+    isItemCodeValidRef.current = false;
     // get typed characters
     // send to API
     // receive response
@@ -305,6 +307,16 @@ function CreateEnquiry() {
             qtyValue = parseInt(e.target.value, 10);
           }
 
+          if (!item.is_valid_item) {
+            //we directly multiplied unitPricevalue because from API we get it without double quotes, so not a string
+            return {
+              ...item,
+              [e.target.name]: qtyValue,
+              code: "invalid code",
+              item_amount: parseFloat((qtyValue * item.unit_price).toFixed(2)),
+            };
+          }
+
           //we directly multiplied unitPricevalue because from API we get it without double quotes, so not a string
           return {
             ...item,
@@ -312,8 +324,13 @@ function CreateEnquiry() {
             item_amount: parseFloat((qtyValue * item.unit_price).toFixed(2)),
           };
         } else {
+          isItemCodeValidRef.current = false;
           // if code is changed then no need to change amount
-          return { ...item, [e.target.name]: e.target.value };
+          return {
+            ...item,
+            [e.target.name]: e.target.value,
+            is_valid_item: false,
+          };
         }
       } else {
         console.log(" item not matching , e.target.id is", e.target.id);
@@ -524,12 +541,14 @@ function CreateEnquiry() {
       if (item.id == currentCodeInputBox) {
         console.log(" Searchlist select inside item.id == e.target.id");
 
+        isItemCodeValidRef.current = true;
         // here we will place value of item code from API instead of e.target.value
         return {
           ...item,
           code: e.currentTarget.dataset.code,
           description: e.currentTarget.dataset.description,
           unit_price: 2.01, //UnitPriceChanged e.currentTarget.dataset.price,
+          is_valid_item: true,
         };
       } else {
         console.log(
@@ -613,7 +632,11 @@ function CreateEnquiry() {
         // focusing next input of quantiy
         liRefArray[
           currentSelectedListitemFromSearch
-        ].parentElement.parentElement.parentElement.parentElement.nextSibling.nextSibling.firstChild.focus();
+        ].parentElement.parentElement.parentElement.parentElement.nextSibling.nextSibling.nextSibling.firstChild.focus();
+
+        // set a state and pass e to that so after we render and come to useEffect is_valid_code will be true
+        // if we try to access is_validcode it will show false because of latency
+        checkWhetherValidCode(e);
       }
     }
   };
@@ -650,17 +673,6 @@ function CreateEnquiry() {
       }
     } else {
       console.log("li ref array from child is null");
-    }
-  };
-
-  const saveTableRowListRef = (arrayOTableRows) => {
-    if (arrayOTableRows) {
-      if (arrayOTableRows.length > 0) {
-        tableRowArrayPositionRef = arrayOTableRows;
-        console.log("table row ref array in parent");
-      }
-    } else {
-      console.log("table row ref array in parent is null");
     }
   };
 
@@ -809,18 +821,23 @@ function CreateEnquiry() {
       total_amount_after_changing_quantity.toFixed(2);
   }, [joinTwoArrays]);
 
-  useEffect(() => {
-    console.log("table row reference array ", tableRowArrayPositionRef);
-  }, [pageValues.table_row_values]);
+  const checkWhetherValidCode = (e) => {
+    pageValues.table_row_values.map((item) => {
+      console.log("onblur item details", item);
+      if (e.target.id == item.id) {
+        if (isItemCodeValidRef.current) {
+          setIsValidCodeState(true);
+        } else {
+          setIsValidCodeState(false);
+          console.log("onblur gone out of input now bring focus back to him");
+          e.target.focus();
+        }
+      }
+    });
+  };
 
   return (
     <div onClick={handleWholePageClick}>
-      {
-        //after setting state , clear any previous table row reference from the array
-        tableRowArrayPositionRef.length > 0
-          ? (tableRowArrayPositionRef = new Array())
-          : null
-      }
       <div className="CreateEnquiry-main-container">
         <h4>Create Enquiry</h4>
         <hr className="CreateEnquiry-divider" />
@@ -863,6 +880,7 @@ function CreateEnquiry() {
               <tr>
                 <th>Sl.No.</th>
                 <th>Part Number</th>
+                <th>Package</th>
                 <th>Description</th>
                 <th className="Create-enquiry-qty">Quantity</th>
                 <th>Unit Price</th>
@@ -889,7 +907,8 @@ function CreateEnquiry() {
                         handleQtykeyDown={handleQtykeyDown}
                         saveSearchListRef={saveSearchListRef}
                         handleListItemClick={handleListItemClick}
-                        ref={(ref) => tableRowArrayPositionRef.push(ref)}
+                        checkWhetherValidCode={checkWhetherValidCode}
+                        isValidCodeState={isValidCodeState}
                       />
                     );
                   })

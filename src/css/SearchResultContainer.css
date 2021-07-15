@@ -1,7 +1,7 @@
 .SearchResultContainer-main {
   background-color: #e2e2e2;
   padding: 1px;
-  width: 30vw;
+  width: 100%;
   margin-left: 0px;
   position: absolute;
   height: 300px;
@@ -12,10 +12,31 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
 }
 
 .SearchResultContainer-main ul li {
   background-color: #efefef;
   padding: 10px 20px;
   margin: 1px 0px;
+}
+.SearchResultContainer-invalid-code {
+  display: flex;
+}
+.SearchResultContainer-invalid-code {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  top: 2px;
+  z-index: 1;
+}
+
+.SearchResultContainer-invalid-code img {
+  height: 24px;
+  margin: 4px 16px;
+}
+
+.SearchResultContainer-invalid-code span {
+  margin-right: 20px;
 }

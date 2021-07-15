@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import "../css/SearchResultContainer.css";
+import item_not_found from "../img/item_not_found.png";
 
 function SearchResultContainer(props) {
   let calledApi = false;
@@ -100,6 +101,13 @@ function SearchResultContainer(props) {
           );
         })}
       </ul>
+      {console.log(" props.isValidCodeState is ", props.isValidCodeState)}
+      {props.isValidCodeState ? null : (
+        <div className="SearchResultContainer-invalid-code">
+          <img src={item_not_found} />
+          <span>Invalid Code</span>
+        </div>
+      )}
     </div>
   );
 }

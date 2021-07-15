@@ -13,6 +13,8 @@ function CreateEnquiryTableRow(props) {
     handleQtykeyDown,
     saveSearchListRef,
     handleListItemClick,
+    checkWhetherValidCode,
+    isValidCodeState,
   } = props;
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function CreateEnquiryTableRow(props) {
             value={rowValues.code}
             onChange={handleInputFromRow}
             onKeyDown={handleKeyboardArrowDown}
+            onBlur={checkWhetherValidCode}
           />
           {isUserSearching && rowValues.id == currentCodeInputBox && (
             <SearchResultContainer
@@ -47,10 +50,12 @@ function CreateEnquiryTableRow(props) {
               typingCharacter={rowValues.code}
               handleListItemClick={handleListItemClick}
               saveSearchListRef={saveSearchListRef}
+              isValidCodeState={isValidCodeState}
             />
           )}
         </div>
       </td>
+      <td>{rowValues.group}</td>
       <td>{rowValues.description}</td>
       <td>
         <input
