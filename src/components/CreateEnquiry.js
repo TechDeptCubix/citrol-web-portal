@@ -36,7 +36,7 @@ function CreateEnquiry() {
   }
 
   //get username
-  let current_user = localStorage.getItem("currentSatusLogUser");
+  let current_user = localStorage.getItem("currentStatusLogUser");
   let currentUser;
   if (current_user) {
     currentUser = JSON.parse(current_user);

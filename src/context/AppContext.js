@@ -10,10 +10,10 @@ class AppContextProvider extends Component {
   };
 
   componentDidMount() {
-    let currentLocalValues = localStorage.getItem("currentSatusLog");
+    let currentLocalValues = localStorage.getItem("currentStatusLog");
     if (currentLocalValues) {
       let previousStateOfLogin = JSON.parse(
-        localStorage.getItem("currentSatusLog")
+        localStorage.getItem("currentStatusLog")
       );
 
       console.log(
@@ -42,7 +42,7 @@ class AppContextProvider extends Component {
     console.log("changeAdminLoginStatus from Login.js is ", loginStatus);
 
     localStorage.setItem(
-      "currentSatusLog",
+      "currentStatusLog",
       JSON.stringify({ isAdminLoggedIn: loginStatus })
     );
     this.setState({ isAdminLoggedIn: loginStatus });

@@ -20,7 +20,7 @@ function LogoutPopup(props) {
     console.log("inside logoutAdmin");
     showLogoutPopup(false);
     localStorage.setItem(
-      "currentSatusLog",
+      "currentStatusLog",
       JSON.stringify({ isAdminLoggedIn: false })
     );
     changeAdminLoginStatus(false);

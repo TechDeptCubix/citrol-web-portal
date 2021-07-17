@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import cubix_logo from "../img/cubix_logo.png";
 import "../css/Footer.css";
 import { useLocation } from "react-router-dom";
@@ -8,20 +8,21 @@ function Footer() {
   const { pathname } = location;
   const splitLocation = pathname.split("/");
 
-  return (
-    <div>
-      <div
-        className={
-          splitLocation[1] === ""
-            ? "hideLoginContainer"
-            : "Footer-bottom-strip-content"
-        }
-      >
-        <span>powered by </span>
-        <img src={cubix_logo} alt="company logo" />
+     return (
+      <div>
+        <div
+          className={
+            splitLocation[1] === ""
+              ? "hideLoginContainer"
+              : "Footer-bottom-strip-content"
+          }
+        >
+          <span>powered by </span>
+          <img src={cubix_logo} alt="company logo" />
+        </div>
       </div>
-    </div>
-  );
+    )
+  
 }
 
 export default Footer;

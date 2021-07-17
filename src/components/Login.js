@@ -167,12 +167,12 @@ function Login(props) {
             // any of localStorage or context set to true will prevent <ProtectedRoute from going back
 
             localStorage.setItem(
-              "currentSatusLog",
+              "currentStatusLog",
               JSON.stringify({ isAdminLoggedIn: true })
             );
 
             localStorage.setItem(
-              "currentSatusLogUser",
+              "currentStatusLogUser",
               JSON.stringify({ user: values.username })
             );
             // enable button again
@@ -221,13 +221,12 @@ function Login(props) {
       <div className="Login-main-section">
         <div className="Login-main-section-content">
           <div className="Login-main-login-form-container">
-            <Link>
+            
               <img
                 src={logo}
                 className="Login-company-icon-center"
                 alt="logo"
               />
-            </Link>
             <h2>The Ultimate Lube</h2>
 
             <form className="Login-form">

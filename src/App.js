@@ -1,3 +1,4 @@
+import React, {useContext} from "react";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -22,14 +23,18 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import StartingPage from "./components/StartingPage";
 
 function App() {
+    
   return (
     // changed <Router /> to <Router basename={process.env.PUBLIC_URL}>
     // because when hosted on gh-pages links like this working only in https://techdeptcubix.github.io/viewOrderStatistics
     // not on  https://techdeptcubix.github.io/premier-web-portal/viewOrderStatistics
 
     <Router basename={process.env.PUBLIC_URL}>
-      <AppContextProvider>
-        <Header />
+      <AppContextProvider >
+
+      {console.log("App.js loaded")}
+      <Header />
+        
         <Route path="/" exact component={StartingPage} />
 
         <ProtectedRoute path="/home" exact component={HomePage} />
