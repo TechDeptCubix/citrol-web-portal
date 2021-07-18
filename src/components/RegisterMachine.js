@@ -174,6 +174,13 @@ function RegisterMachine(props) {
     });
   };
 
+  
+  const handleEnterKey = (e) =>{
+    if(e.keyCode == 13){
+      console.log("nextsibling of  e ", e.target.nextSibling);
+      e.target.nextSibling.focus();
+    }
+  }
   return (
     <div className="Login-page-height">
       <div className="Login-main-section">
@@ -194,6 +201,7 @@ function RegisterMachine(props) {
                 placeholder="Enter Company Name"
                 value={values.company_name}
                 onChange={handleInputChange}
+                onKeyUp={handleEnterKey}
               />
 
               <input
@@ -202,6 +210,7 @@ function RegisterMachine(props) {
                 placeholder="Enter Company Code"
                 value={values.userpassword}
                 onChange={handleInputChange}
+                onKeyUp={handleEnterKey}
               />
 
               <input
@@ -210,6 +219,7 @@ function RegisterMachine(props) {
                 placeholder="Enter System Key"
                 value={values.system_key}
                 onChange={handleInputChange}
+                onKeyUp={handleEnterKey}
               />
 
               <input

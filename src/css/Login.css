@@ -68,7 +68,10 @@ body {
   font-family: "Roboto Slab", serif;
   cursor: pointer;
 }
-
+.Login-form .Login-submit:focus {
+  background-color: #d7d7d7;
+  color: red;
+}
 ::placeholder {
   font-family: "Roboto Slab", serif;
   color: #767676;

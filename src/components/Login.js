@@ -119,12 +119,13 @@ function Login(props) {
   };
 
   const sendRequest = () => {
+    
+    console.log("button clicked");
     // disable button till success or failure result
     if (isSending) return;
 
     // update state of Button
     setIsSending(true);
-    console.log("button clicked");
 
     // first validate input values
     validateInput();
@@ -216,6 +217,13 @@ function Login(props) {
     });
   };
 
+  const handleEnterKey = (e) =>{
+    if(e.keyCode == 13){
+      console.log("nextsibling of  e ", e.target.nextSibling);
+      e.target.nextSibling.focus();
+    }
+  }
+
   return (
     <div className="Login-page-height">
       <div className="Login-main-section">
@@ -236,6 +244,7 @@ function Login(props) {
                 placeholder="Enter username"
                 value={values.username}
                 onChange={handleInputChange}
+                onKeyUp={handleEnterKey}
               />
 
               <input
@@ -244,6 +253,7 @@ function Login(props) {
                 placeholder="Enter password"
                 value={values.userpassword}
                 onChange={handleInputChange}
+                onKeyUp={handleEnterKey}
               />
               <input
                 type="button"
