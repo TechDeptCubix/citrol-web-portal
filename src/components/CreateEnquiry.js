@@ -65,6 +65,10 @@ function CreateEnquiry() {
   const [pageValues, setPageValues] = useState({
     reference: "",
     remarks: "",
+    carrier_type:"",
+    cargo_name:"",
+    contact_number:"",
+    shipping_mark:"",
     table_row_values: [],
   });
 
@@ -199,6 +203,7 @@ function CreateEnquiry() {
             ord_ref: "",
             ord_rem: "",
             code: item.code,
+            group: item.group,
             description: item.description,
             qty: item.req_ty,
             unit_price: item.unit_Price,
@@ -209,6 +214,7 @@ function CreateEnquiry() {
             c2: "",
             c3: "",
             c4: "",
+            is_valid_item:true,
             n1: 0,
             n2: 0,
             n3: 0,
@@ -268,8 +274,14 @@ function CreateEnquiry() {
   };
   // these handlers are for remarks and reference input
   const handleInput = (e) => {
-    console.log("value changed in input so rerendering");
-    setPageValues({ ...pageValues, [e.target.name]: e.target.value });
+    console.log("value changed in input so rerendering ", e );
+    if(e.target.name == "carrier_type"  && e.target.value == "container"){
+      // if the carrier_type is container then we have to clear out values of cargo_name and contact number 
+      setPageValues({ ...pageValues, [e.target.name]: e.target.value , cargo_name:"", contact_number:"" });
+    }else{
+      setPageValues({ ...pageValues, [e.target.name]: e.target.value });
+    }
+    
   };
 
   //these handlers are for inputs from Table row
@@ -304,16 +316,6 @@ function CreateEnquiry() {
           } else {
             console.log("entered thing not isNaN");
             qtyValue = parseInt(e.target.value, 10);
-          }
-
-          if (!item.is_valid_item) {
-            //we directly multiplied unitPricevalue because from API we get it without double quotes, so not a string
-            return {
-              ...item,
-              [e.target.name]: qtyValue,
-              code: "invalid code",
-              item_amount: parseFloat((qtyValue * item.unit_price).toFixed(2)),
-            };
           }
 
           //we directly multiplied unitPricevalue because from API we get it without double quotes, so not a string
@@ -421,6 +423,11 @@ function CreateEnquiry() {
     let companyCodeForEnquiry = currentCompany.company_code;
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
+   
+    let carrierTypeDraft = pageValues.carrier_type;
+    let cargoNameDraft = pageValues.cargo_name;
+    let contactNumberDraft = pageValues.contact_number;
+    let shippingmarkDraft = pageValues.shipping_mark;
 
     console.log("our data before drafting ", pageValues.table_row_values)
 
@@ -437,12 +444,15 @@ function CreateEnquiry() {
           code: item.code,
           description: item.description,
           qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
-          unit_price: item.unit_price,
+          unit_price: parseInt(item.unit_price, 10),
           account: "",
           c1: currentUser.user,
-          c2: "",
-          c3: "",
+          c2: carrierTypeDraft,
+          c3: cargoNameDraft,
           c4: dataFromEnquiry ? "MODIFY" : "NEW",
+          c5: contactNumberDraft,
+          c6: shippingmarkDraft,
+          c7:"",
           n1: 0,
           n2: 0,
           n3: 0,
@@ -481,6 +491,11 @@ function CreateEnquiry() {
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
 
+    let carrierTypeDraft = pageValues.carrier_type;
+    let cargoNameDraft = pageValues.cargo_name;
+    let contactNumberDraft = pageValues.contact_number;
+    let shippingmarkDraft = pageValues.shipping_mark;
+
     const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
       .map((item) => {
         return {
@@ -495,9 +510,12 @@ function CreateEnquiry() {
           unit_price: item.unit_price,
           account: "",
           c1: currentUser.user,
-          c2: "",
-          c3: "",
+          c2: carrierTypeDraft,
+          c3: cargoNameDraft,
           c4: "NEW",
+          c5: contactNumberDraft,
+          c6: shippingmarkDraft,
+          c7:"",
           n1: 0,
           n2: 0,
           n3: 0,
@@ -697,6 +715,7 @@ function CreateEnquiry() {
           ord_ref: referenceForEnquiry,
           ord_rem: remarksForEnquiry,
           code: item.code,
+          group: item.group,
           description: item.description,
           qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
           unit_price: item.unit_price,
@@ -723,6 +742,7 @@ function CreateEnquiry() {
           ord_ref: "",
           ord_rem: "",
           code: "",
+          package: "",
           description: "",
           qty: 0, // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
           unit_price: 0,
@@ -738,6 +758,7 @@ function CreateEnquiry() {
           // eg "user" in column should be same as user in content else that column will be blank
           { label: "Sl. No.", value: "sl_no" }, // Top level data // value : "user" should be same as content key double quotes required
           { label: "Part Number", value: "code" }, // Run functions
+          { label: "Package", value: "group" }, 
           { label: "Description", value: "description" },
           { label: "Quantity", value: "qty" },
           { label: "Unit Price", value: "unit_price" },
@@ -771,6 +792,7 @@ function CreateEnquiry() {
         ord_ref: "",
         ord_rem: "",
         code: item["Part Number"],
+        group: item.Package,
         description: item.Description,
         qty: item.Quantity,
         unit_price: item["Unit Price"],
@@ -780,6 +802,7 @@ function CreateEnquiry() {
         c2: "",
         c3: "",
         c4: "",
+        is_valid_item:true,
         n1: 0,
         n2: 0,
         n3: 0,
@@ -853,7 +876,7 @@ function CreateEnquiry() {
             onChange={handleInput}
             ref={inputRef}
           />
-          <label>Enter Your Remarks</label>
+          <label>Customer Name</label>
           <input
             className="remarks-input"
             name="remarks"
@@ -861,7 +884,34 @@ function CreateEnquiry() {
             onChange={handleInput}
             value={pageValues.remarks}
           />
+           <label>Mark</label>
+          <input
+            className="remarks-input"
+            name="shipping_mark"
+            type="text"
+            onChange={handleInput}
+            value={pageValues.shipping_mark}
+          />
         </div>
+
+        <div className="CreateEnquiry-carrier-type-container" onChange={handleInput}>
+          <div>
+        <input type="radio" value="container" name="carrier_type" id="carrierr-type-radio-1" /> 
+        <label for="carrierr-type-radio-1">Container</label>
+          </div>
+          <div>
+        <input type="radio" value="cargo" name="carrier_type" id="carrierr-type-radio-2"/> 
+        <label for="carrierr-type-radio-2">Cargo</label>
+          </div>
+      </div>
+
+      {pageValues.carrier_type == "cargo" && 
+        <div className="CreateEnquiry-cargo-details-container">
+          <label> Cargo Name </label>
+        <input type="text" value={pageValues.cargo_name} name="cargo_name" onChange={handleInput} />
+        <label> Contact Number </label>
+        <input type="number" value={pageValues.contact_number} name="contact_number" onChange={handleInput}/>
+        </div>}
 
         <div className="CreateEnquiry-excel-button-container">
           <ExcelReader getJsonDataFromExcel={getJsonDataFromExcel} />
