@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import icDelete from "../img/ic_delete_selected.png";
 import icDownloadToEcel from "../img/ic_download_to_excel.png";
+import icAddFromFavourites from "../img/ic_add_from_favourite.png";
 import "../css/CreateEnquiry.css";
 import SupportedItemsPopup from "./SupportedItemsPopup";
 import SuccessPopup from "./SuccessPopup";
@@ -11,6 +12,8 @@ import CreateEnquiryTableRow from "./CreateEnquiryTableRow";
 import axios from "axios";
 import ConfirmationPopup from "./ConfirmationPopup";
 import ExcelReader from "./ExcelReader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function CreateEnquiry() {
   let xlsx = require("json-as-xlsx");
@@ -24,6 +27,7 @@ function CreateEnquiry() {
   const [joinTwoArrays, setJoinTwoArrays] = useState(0);
   const isItemCodeValidRef = useRef(false);
   const [isValidCodeState, setIsValidCodeState] = useState(true);
+  const [startDate, setStartDate] = useState(new Date());
 
   let liRefArray = useRef([]);
   // get company code
@@ -65,6 +69,7 @@ function CreateEnquiry() {
   const [pageValues, setPageValues] = useState({
     reference: "",
     remarks: "",
+    customer_name:"",
     carrier_type:"",
     cargo_name:"",
     contact_number:"",
@@ -428,6 +433,7 @@ function CreateEnquiry() {
     let cargoNameDraft = pageValues.cargo_name;
     let contactNumberDraft = pageValues.contact_number;
     let shippingmarkDraft = pageValues.shipping_mark;
+    let customerName = pageValues.customer_name;
 
     console.log("our data before drafting ", pageValues.table_row_values)
 
@@ -452,11 +458,11 @@ function CreateEnquiry() {
           c4: dataFromEnquiry ? "MODIFY" : "NEW",
           c5: contactNumberDraft,
           c6: shippingmarkDraft,
-          c7:"",
+          c7:customerName,
           n1: 0,
           n2: 0,
           n3: 0,
-          d1: "",
+          d1: startDate,
           d2: "",
         };
       })
@@ -495,6 +501,7 @@ function CreateEnquiry() {
     let cargoNameDraft = pageValues.cargo_name;
     let contactNumberDraft = pageValues.contact_number;
     let shippingmarkDraft = pageValues.shipping_mark;
+    let customerName = pageValues.customer_name;
 
     const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
       .map((item) => {
@@ -515,11 +522,11 @@ function CreateEnquiry() {
           c4: "NEW",
           c5: contactNumberDraft,
           c6: shippingmarkDraft,
-          c7:"",
+          c7:customerName,
           n1: 0,
           n2: 0,
           n3: 0,
-          d1: "",
+          d1: startDate,
           d2: "",
         };
       })
@@ -861,6 +868,55 @@ function CreateEnquiry() {
     });
   };
 
+  const addFromFavourites = () => {
+    const favouriteJson = [{code: "10003", description: "ATF 12X1LTR ROUND CITROL", group: "12X1 LTR", supportItem: 0, price: 100},
+    {code: "10004", description: "ATF DEXRON IIID CITROL 12X1L TIN", group: "12X1 LTR", supportItem: 0, price: 365}];
+
+    let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
+      (item) => !(item.code.trim() === "")
+    );
+    let updatedTableRows = favouriteJson.map((item, index) => {
+      let newItemObject = {
+        id: filteredOutEmptyTableRows.length + index + 1,
+        cmpcode: "",
+        ord_Id: "",
+        ord_date: "",
+        ord_ref: "",
+        ord_rem: "",
+        code: item.code,
+        group: item.group,
+        description: item.description,
+        qty: 0,
+        unit_price: item.price,
+        item_amount: 0,
+        account: "",
+        c1: "",
+        c2: "",
+        c3: "",
+        c4: "",
+        is_valid_item:true,
+        n1: 0,
+        n2: 0,
+        n3: 0,
+        d1: "",
+        d2: "",
+        supported_items: "",
+        supported_items_from: "",
+        select_check_box: false,
+      };
+
+      return newItemObject;
+    });
+    console.log("hello updatedTableRows  ", updatedTableRows);
+
+    setPageValues({
+      ...pageValues,
+      table_row_values: [...filteredOutEmptyTableRows, ...updatedTableRows],
+    });
+
+    setJoinTwoArrays((prev) => prev + 1);
+  }
+
   return (
     <div onClick={handleWholePageClick}>
       <div className="CreateEnquiry-main-container">
@@ -876,22 +932,46 @@ function CreateEnquiry() {
             onChange={handleInput}
             ref={inputRef}
           />
-          <label>Customer Name</label>
+          <label>Remarks</label>
           <input
             className="remarks-input"
             name="remarks"
             type="text"
             onChange={handleInput}
             value={pageValues.remarks}
-          />
-           <label>Mark</label>
+          /> 
+          <label>Customer Name</label>
           <input
             className="remarks-input"
+            name="customer_name"
+            type="text"
+            onChange={handleInput}
+            value={pageValues.customer_name}
+          />
+          <br/>
+          <div className="second-row-date-input-label">
+          <label >Date</label>
+         
+
+              <DatePicker
+                dateFormat="dd/MM/yyyy"
+                className="datePickerInputLibrary"
+                selected={startDate}
+                peekNextMonth
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="select"
+                onChange={(date) => setStartDate(date)}
+              />
+
+           <label>Mark</label>
+          <input
             name="shipping_mark"
             type="text"
             onChange={handleInput}
             value={pageValues.shipping_mark}
           />
+          </div>
         </div>
 
         <div className="CreateEnquiry-carrier-type-container" onChange={handleInput}>
@@ -909,17 +989,24 @@ function CreateEnquiry() {
         <div className="CreateEnquiry-cargo-details-container">
           <label> Cargo Name </label>
         <input type="text" value={pageValues.cargo_name} name="cargo_name" onChange={handleInput} />
-        <label> Contact Number </label>
+        <label className="contact-number-label"> Contact Number </label>
         <input type="number" value={pageValues.contact_number} name="contact_number" onChange={handleInput}/>
         </div>}
 
-        <div className="CreateEnquiry-excel-button-container">
+        <div className="CreateEnquiry-excel-button-container" >
+
+          <button onClick={addFromFavourites} className="add-from-favourite-button">
+            <img alt="add from favourites" src={icAddFromFavourites} />{" "}
+            <span>Add From Favourites</span>
+          </button>
+
           <ExcelReader getJsonDataFromExcel={getJsonDataFromExcel} />
 
           <button onClick={downloadToExcel}>
             <img alt="download to excel" src={icDownloadToEcel} />{" "}
             <span>Download To Excel</span>
           </button>
+
           <button onClick={deleteSelectedTableRows}>
             <img alt="delete selected" src={icDelete} />{" "}
             <span>Delete Selected</span>

@@ -135,6 +135,10 @@
   cursor: pointer;
 }
 
+.add-from-favourite-button{
+  margin-right: 10px;
+}
+
 .CreateEnquiry-excel-button-container button:hover {
   background-color: #f8f8f8;
   box-shadow: 0px 15px 20px rgba(200, 200, 200, 0.9);
@@ -244,4 +248,20 @@ input[type="number"] {
 .CreateEnquiry-cargo-details-container {
   margin-left: 20px;
   margin-top: 20px;
+}
+
+.CreateEnquiry-cargo-details-container input{
+  margin-left: 10px;
+}
+
+.CreateEnquiry-cargo-details-container .contact-number-label{
+
+  margin-left: 20px;
+}
+
+.second-row-date-input-label{
+margin-top: 20px;
+margin-left: 0px;
+display: flex;
+    flex-direction: row;
 }

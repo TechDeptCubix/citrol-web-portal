@@ -23,6 +23,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import StartingPage from "./components/StartingPage";
 
 function App() {
+
+  window.addEventListener("beforeunload", function(event) { 
+    console.log("browser closed citrol ");
+    localStorage.removeItem("currentStatusLogUser");
+    localStorage.removeItem("currentStatusLog");
+   });
     
   return (
     // changed <Router /> to <Router basename={process.env.PUBLIC_URL}>
