@@ -24,12 +24,7 @@ import StartingPage from "./components/StartingPage";
 
 function App() {
 
-  window.addEventListener("beforeunload", function(event) { 
-    console.log("browser closed citrol ");
-    localStorage.removeItem("currentStatusLogUser");
-    localStorage.removeItem("currentStatusLog");
-   });
-    
+
   return (
     // changed <Router /> to <Router basename={process.env.PUBLIC_URL}>
     // because when hosted on gh-pages links like this working only in https://techdeptcubix.github.io/viewOrderStatistics

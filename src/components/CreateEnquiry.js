@@ -28,8 +28,10 @@ function CreateEnquiry() {
   const isItemCodeValidRef = useRef(false);
   const [isValidCodeState, setIsValidCodeState] = useState(true);
   const [startDate, setStartDate] = useState(new Date());
+  const [favouriteItemList, setFavouriteItemList] = useState([]);
 
   let liRefArray = useRef([]);
+  
   // get company code
   let current_company = localStorage.getItem("current_company");
   let currentCompany;
@@ -40,7 +42,7 @@ function CreateEnquiry() {
   }
 
   //get username
-  let current_user = localStorage.getItem("currentStatusLogUser");
+  let current_user = sessionStorage.getItem("citrolLoggedInUser");
   let currentUser;
   if (current_user) {
     currentUser = JSON.parse(current_user);
@@ -52,7 +54,7 @@ function CreateEnquiry() {
   const { format } = require("date-fns");
   //today's date
   const today = format(new Date(), "dd-MMM-yyyy");
-  console.log(today);
+  console.log("date format today date fns", today);
 
   //time
   const timeWhenEntryIsMade = format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
@@ -303,7 +305,13 @@ function CreateEnquiry() {
     if (e.target.name == "code") {
       setCurrentCodeInputBox(e.target.id);
       setUserSearchText(e.target.value);
-      setIsUserSearching(true);
+
+      if(e.target.value == ""){
+        setIsUserSearching(false);  
+      }else{
+        setIsUserSearching(true);
+      }
+      
     } else {
       setIsUserSearching(false);
     }
@@ -423,6 +431,7 @@ function CreateEnquiry() {
   };
 
   const draftEnquiry = () => {
+    
     let uniqueKeyForEnquiry =
       currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
     let companyCodeForEnquiry = currentCompany.company_code;
@@ -436,6 +445,10 @@ function CreateEnquiry() {
     let customerName = pageValues.customer_name;
 
     console.log("our data before drafting ", pageValues.table_row_values)
+
+    // 2021-08-15T09:11:00.000Z
+    // d1 key startDate, we send in year month day format, because backend table column DateTime supports only that format
+    // T09:11:00.000Z means Time and Zone
 
     const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
       .map((item) => {
@@ -869,13 +882,29 @@ function CreateEnquiry() {
   };
 
   const addFromFavourites = () => {
-    const favouriteJson = [{code: "10003", description: "ATF 12X1LTR ROUND CITROL", group: "12X1 LTR", supportItem: 0, price: 100},
-    {code: "10004", description: "ATF DEXRON IIID CITROL 12X1L TIN", group: "12X1 LTR", supportItem: 0, price: 365}];
 
-    let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
-      (item) => !(item.code.trim() === "")
-    );
-    let updatedTableRows = favouriteJson.map((item, index) => {
+    const apiUrl = `http://185.140.249.224:26/api/cubixitems/favourite/${currentCompany.company_code}/${currentUser.user}`;
+
+    console.log("api for getting favourites list", apiUrl);
+
+    axios
+      .get(apiUrl)
+      .then((res) => {
+        console.log("api for getting favourites list DATA SUCCESS ", res.data);
+        setFavouriteItemList(res.data)
+      })
+      .catch(() => {
+        console.log("api for getting favourites list DATA FAILURE ");
+      });
+  }
+
+  useEffect(()=>{
+    console.log("favouriteItemList state changed length is " , favouriteItemList.length);
+    if(favouriteItemList.length > 0){
+      let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
+        (item) => !(item.code.trim() === "")
+      );
+      let updatedTableRows = favouriteItemList.map((item, index) => {
       let newItemObject = {
         id: filteredOutEmptyTableRows.length + index + 1,
         cmpcode: "",
@@ -915,7 +944,9 @@ function CreateEnquiry() {
     });
 
     setJoinTwoArrays((prev) => prev + 1);
-  }
+    }
+    
+  },[favouriteItemList]);
 
   return (
     <div onClick={handleWholePageClick}>
@@ -977,11 +1008,11 @@ function CreateEnquiry() {
         <div className="CreateEnquiry-carrier-type-container" onChange={handleInput}>
           <div>
         <input type="radio" value="container" name="carrier_type" id="carrierr-type-radio-1" /> 
-        <label for="carrierr-type-radio-1">Container</label>
+        <label htmlFor="carrierr-type-radio-1">Container</label>
           </div>
           <div>
         <input type="radio" value="cargo" name="carrier_type" id="carrierr-type-radio-2"/> 
-        <label for="carrierr-type-radio-2">Cargo</label>
+        <label htmlFor="carrierr-type-radio-2">Cargo</label>
           </div>
       </div>
 

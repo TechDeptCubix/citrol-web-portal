@@ -20,7 +20,7 @@ function ViewEnquiry() {
   console.log("data from enquiry ", dataFromEnquiry);
 
   //get username
-  let current_user = localStorage.getItem("currentStatusLogUser");
+  let current_user = sessionStorage.getItem("citrolLoggedInUser");
   let currentUser;
   if (current_user) {
     currentUser = JSON.parse(current_user);

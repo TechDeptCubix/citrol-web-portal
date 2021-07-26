@@ -8,7 +8,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
   let isLocalStorageKeyCreated;
 
   let previousStateOfLogin = JSON.parse(
-    localStorage.getItem("currentStatusLog")
+    sessionStorage.getItem("citrolLoggedIn")
   );
 
   if (previousStateOfLogin) {

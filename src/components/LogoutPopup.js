@@ -19,9 +19,14 @@ function LogoutPopup(props) {
   const logoutAdmin = () => {
     console.log("inside logoutAdmin");
     showLogoutPopup(false);
-    localStorage.setItem(
-      "currentStatusLog",
+
+    sessionStorage.setItem(
+      "citrolLoggedIn",
       JSON.stringify({ isAdminLoggedIn: false })
+    );
+    sessionStorage.setItem(
+      "citrolLoggedInUser",
+      JSON.stringify({ user: "" })
     );
     changeAdminLoginStatus(false);
   };

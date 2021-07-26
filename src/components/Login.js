@@ -167,13 +167,17 @@ function Login(props) {
             // because we have put or condition in protected route
             // any of localStorage or context set to true will prevent <ProtectedRoute from going back
 
-            localStorage.setItem(
-              "currentStatusLog",
+            
+
+            // Save data to sessionStorage
+
+            sessionStorage.setItem(
+              "citrolLoggedIn",
               JSON.stringify({ isAdminLoggedIn: true })
             );
 
-            localStorage.setItem(
-              "currentStatusLogUser",
+            sessionStorage.setItem(
+              "citrolLoggedInUser",
               JSON.stringify({ user: values.username })
             );
             // enable button again
