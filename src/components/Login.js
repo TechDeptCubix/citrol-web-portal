@@ -119,7 +119,6 @@ function Login(props) {
   };
 
   const sendRequest = () => {
-    
     console.log("button clicked");
     // disable button till success or failure result
     if (isSending) return;
@@ -167,19 +166,16 @@ function Login(props) {
             // because we have put or condition in protected route
             // any of localStorage or context set to true will prevent <ProtectedRoute from going back
 
-            
+            // Save data to cookieStorage
+            //document.cookie = "username=John Wick"; // setting cookie
+            document.cookie =
+              "citrolLoggedIn=" +
+              JSON.stringify({
+                isAdminLoggedIn: true,
+              });
+            document.cookie =
+              "citrolLoggedInUser=" + JSON.stringify({ user: values.username });
 
-            // Save data to sessionStorage
-
-            sessionStorage.setItem(
-              "citrolLoggedIn",
-              JSON.stringify({ isAdminLoggedIn: true })
-            );
-
-            sessionStorage.setItem(
-              "citrolLoggedInUser",
-              JSON.stringify({ user: values.username })
-            );
             // enable button again
             setIsSending(false);
 
@@ -221,24 +217,19 @@ function Login(props) {
     });
   };
 
-  const handleEnterKey = (e) =>{
-    if(e.keyCode == 13){
+  const handleEnterKey = (e) => {
+    if (e.keyCode == 13) {
       console.log("nextsibling of  e ", e.target.nextSibling);
       e.target.nextSibling.focus();
     }
-  }
+  };
 
   return (
     <div className="Login-page-height">
       <div className="Login-main-section">
         <div className="Login-main-section-content">
           <div className="Login-main-login-form-container">
-            
-              <img
-                src={logo}
-                className="Login-company-icon-center"
-                alt="logo"
-              />
+            <img src={logo} className="Login-company-icon-center" alt="logo" />
             <h2>The Ultimate Lube</h2>
 
             <form className="Login-form">

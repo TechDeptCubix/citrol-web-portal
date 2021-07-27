@@ -20,14 +20,14 @@ function LogoutPopup(props) {
     console.log("inside logoutAdmin");
     showLogoutPopup(false);
 
-    sessionStorage.setItem(
-      "citrolLoggedIn",
-      JSON.stringify({ isAdminLoggedIn: false })
-    );
-    sessionStorage.setItem(
-      "citrolLoggedInUser",
-      JSON.stringify({ user: "" })
-    );
+    // Save data to cookieStorage
+    document.cookie =
+      "citrolLoggedIn=" +
+      JSON.stringify({
+        isAdminLoggedIn: false,
+      });
+    document.cookie = "citrolLoggedInUser=" + JSON.stringify({ user: "" });
+    //////////////////////////////////////////////////////////////////////
     changeAdminLoginStatus(false);
   };
 

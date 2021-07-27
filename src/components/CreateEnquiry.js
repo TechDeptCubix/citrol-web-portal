@@ -31,7 +31,7 @@ function CreateEnquiry() {
   const [favouriteItemList, setFavouriteItemList] = useState([]);
 
   let liRefArray = useRef([]);
-  
+
   // get company code
   let current_company = localStorage.getItem("current_company");
   let currentCompany;
@@ -42,12 +42,17 @@ function CreateEnquiry() {
   }
 
   //get username
-  let current_user = sessionStorage.getItem("citrolLoggedInUser");
   let currentUser;
-  if (current_user) {
-    currentUser = JSON.parse(current_user);
+  console.log("our cookie is " + document.cookie);
+  if (document.cookie.length != 0) {
+    var array = document.cookie.split("; ");
+    let loggedInObject = array[1].split("=");
+    console.log("user json", JSON.parse(loggedInObject[1]));
 
-    console.log("current_machineguid value is  ", currentUser);
+    currentUser = JSON.parse(loggedInObject[1]);
+    console.log("user name from cookie ", currentUser.user);
+  } else {
+    console.log("Cookie not available");
   }
 
   //import the function you want to use
@@ -71,11 +76,11 @@ function CreateEnquiry() {
   const [pageValues, setPageValues] = useState({
     reference: "",
     remarks: "",
-    customer_name:"",
-    carrier_type:"",
-    cargo_name:"",
-    contact_number:"",
-    shipping_mark:"",
+    customer_name: "",
+    carrier_type: "",
+    cargo_name: "",
+    contact_number: "",
+    shipping_mark: "",
     table_row_values: [],
   });
 
@@ -110,7 +115,7 @@ function CreateEnquiry() {
     supported_items_from: "",
     select_check_box: false,
     is_valid_item: false,
-    group:""
+    group: "",
   };
 
   console.log(
@@ -221,7 +226,7 @@ function CreateEnquiry() {
             c2: "",
             c3: "",
             c4: "",
-            is_valid_item:true,
+            is_valid_item: true,
             n1: 0,
             n2: 0,
             n3: 0,
@@ -281,14 +286,18 @@ function CreateEnquiry() {
   };
   // these handlers are for remarks and reference input
   const handleInput = (e) => {
-    console.log("value changed in input so rerendering ", e );
-    if(e.target.name == "carrier_type"  && e.target.value == "container"){
-      // if the carrier_type is container then we have to clear out values of cargo_name and contact number 
-      setPageValues({ ...pageValues, [e.target.name]: e.target.value , cargo_name:"", contact_number:"" });
-    }else{
+    console.log("value changed in input so rerendering ", e);
+    if (e.target.name == "carrier_type" && e.target.value == "container") {
+      // if the carrier_type is container then we have to clear out values of cargo_name and contact number
+      setPageValues({
+        ...pageValues,
+        [e.target.name]: e.target.value,
+        cargo_name: "",
+        contact_number: "",
+      });
+    } else {
       setPageValues({ ...pageValues, [e.target.name]: e.target.value });
     }
-    
   };
 
   //these handlers are for inputs from Table row
@@ -306,12 +315,11 @@ function CreateEnquiry() {
       setCurrentCodeInputBox(e.target.id);
       setUserSearchText(e.target.value);
 
-      if(e.target.value == ""){
-        setIsUserSearching(false);  
-      }else{
+      if (e.target.value == "") {
+        setIsUserSearching(false);
+      } else {
         setIsUserSearching(true);
       }
-      
     } else {
       setIsUserSearching(false);
     }
@@ -431,26 +439,26 @@ function CreateEnquiry() {
   };
 
   const draftEnquiry = () => {
-    
     let uniqueKeyForEnquiry =
       currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
     let companyCodeForEnquiry = currentCompany.company_code;
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
-   
+
     let carrierTypeDraft = pageValues.carrier_type;
     let cargoNameDraft = pageValues.cargo_name;
     let contactNumberDraft = pageValues.contact_number;
     let shippingmarkDraft = pageValues.shipping_mark;
     let customerName = pageValues.customer_name;
 
-    console.log("our data before drafting ", pageValues.table_row_values)
+    console.log("our data before drafting ", pageValues.table_row_values);
 
     // 2021-08-15T09:11:00.000Z
     // d1 key startDate, we send in year month day format, because backend table column DateTime supports only that format
     // T09:11:00.000Z means Time and Zone
 
-    const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
+    const postArrayForEnquiryDraft = pageValues.table_row_values
+      .filter((item) => item.is_valid_item)
       .map((item) => {
         return {
           cmpcode: companyCodeForEnquiry,
@@ -471,7 +479,7 @@ function CreateEnquiry() {
           c4: dataFromEnquiry ? "MODIFY" : "NEW",
           c5: contactNumberDraft,
           c6: shippingmarkDraft,
-          c7:customerName,
+          c7: customerName,
           n1: 0,
           n2: 0,
           n3: 0,
@@ -479,7 +487,7 @@ function CreateEnquiry() {
           d2: "",
         };
       })
-      .filter((item) => !(item.code.trim() === "") && (item.qty > 0 ) );
+      .filter((item) => !(item.code.trim() === "") && item.qty > 0);
 
     const apiUrL = "http://185.140.249.224:26/api/EnquiryDraft";
 
@@ -516,7 +524,8 @@ function CreateEnquiry() {
     let shippingmarkDraft = pageValues.shipping_mark;
     let customerName = pageValues.customer_name;
 
-    const postArrayForEnquiryDraft = pageValues.table_row_values.filter((item)=>item.is_valid_item)
+    const postArrayForEnquiryDraft = pageValues.table_row_values
+      .filter((item) => item.is_valid_item)
       .map((item) => {
         return {
           cmpcode: companyCodeForEnquiry,
@@ -535,7 +544,7 @@ function CreateEnquiry() {
           c4: "NEW",
           c5: contactNumberDraft,
           c6: shippingmarkDraft,
-          c7:customerName,
+          c7: customerName,
           n1: 0,
           n2: 0,
           n3: 0,
@@ -778,7 +787,7 @@ function CreateEnquiry() {
           // eg "user" in column should be same as user in content else that column will be blank
           { label: "Sl. No.", value: "sl_no" }, // Top level data // value : "user" should be same as content key double quotes required
           { label: "Part Number", value: "code" }, // Run functions
-          { label: "Package", value: "group" }, 
+          { label: "Package", value: "group" },
           { label: "Description", value: "description" },
           { label: "Quantity", value: "qty" },
           { label: "Unit Price", value: "unit_price" },
@@ -822,7 +831,7 @@ function CreateEnquiry() {
         c2: "",
         c3: "",
         c4: "",
-        is_valid_item:true,
+        is_valid_item: true,
         n1: 0,
         n2: 0,
         n3: 0,
@@ -882,7 +891,6 @@ function CreateEnquiry() {
   };
 
   const addFromFavourites = () => {
-
     const apiUrl = `http://185.140.249.224:26/api/cubixitems/favourite/${currentCompany.company_code}/${currentUser.user}`;
 
     console.log("api for getting favourites list", apiUrl);
@@ -891,62 +899,64 @@ function CreateEnquiry() {
       .get(apiUrl)
       .then((res) => {
         console.log("api for getting favourites list DATA SUCCESS ", res.data);
-        setFavouriteItemList(res.data)
+        setFavouriteItemList(res.data);
       })
       .catch(() => {
         console.log("api for getting favourites list DATA FAILURE ");
       });
-  }
+  };
 
-  useEffect(()=>{
-    console.log("favouriteItemList state changed length is " , favouriteItemList.length);
-    if(favouriteItemList.length > 0){
+  useEffect(() => {
+    console.log(
+      "favouriteItemList state changed length is ",
+      favouriteItemList.length
+    );
+    if (favouriteItemList.length > 0) {
       let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
         (item) => !(item.code.trim() === "")
       );
       let updatedTableRows = favouriteItemList.map((item, index) => {
-      let newItemObject = {
-        id: filteredOutEmptyTableRows.length + index + 1,
-        cmpcode: "",
-        ord_Id: "",
-        ord_date: "",
-        ord_ref: "",
-        ord_rem: "",
-        code: item.code,
-        group: item.group,
-        description: item.description,
-        qty: 0,
-        unit_price: item.price,
-        item_amount: 0,
-        account: "",
-        c1: "",
-        c2: "",
-        c3: "",
-        c4: "",
-        is_valid_item:true,
-        n1: 0,
-        n2: 0,
-        n3: 0,
-        d1: "",
-        d2: "",
-        supported_items: "",
-        supported_items_from: "",
-        select_check_box: false,
-      };
+        let newItemObject = {
+          id: filteredOutEmptyTableRows.length + index + 1,
+          cmpcode: "",
+          ord_Id: "",
+          ord_date: "",
+          ord_ref: "",
+          ord_rem: "",
+          code: item.code,
+          group: item.group,
+          description: item.description,
+          qty: 0,
+          unit_price: item.price,
+          item_amount: 0,
+          account: "",
+          c1: "",
+          c2: "",
+          c3: "",
+          c4: "",
+          is_valid_item: true,
+          n1: 0,
+          n2: 0,
+          n3: 0,
+          d1: "",
+          d2: "",
+          supported_items: "",
+          supported_items_from: "",
+          select_check_box: false,
+        };
 
-      return newItemObject;
-    });
-    console.log("hello updatedTableRows  ", updatedTableRows);
+        return newItemObject;
+      });
+      console.log("hello updatedTableRows  ", updatedTableRows);
 
-    setPageValues({
-      ...pageValues,
-      table_row_values: [...filteredOutEmptyTableRows, ...updatedTableRows],
-    });
+      setPageValues({
+        ...pageValues,
+        table_row_values: [...filteredOutEmptyTableRows, ...updatedTableRows],
+      });
 
-    setJoinTwoArrays((prev) => prev + 1);
+      setJoinTwoArrays((prev) => prev + 1);
     }
-    
-  },[favouriteItemList]);
+  }, [favouriteItemList]);
 
   return (
     <div onClick={handleWholePageClick}>
@@ -970,7 +980,7 @@ function CreateEnquiry() {
             type="text"
             onChange={handleInput}
             value={pageValues.remarks}
-          /> 
+          />
           <label>Customer Name</label>
           <input
             className="remarks-input"
@@ -979,54 +989,79 @@ function CreateEnquiry() {
             onChange={handleInput}
             value={pageValues.customer_name}
           />
-          <br/>
+          <br />
           <div className="second-row-date-input-label">
-          <label >Date</label>
-         
+            <label>Date</label>
 
-              <DatePicker
-                dateFormat="dd/MM/yyyy"
-                className="datePickerInputLibrary"
-                selected={startDate}
-                peekNextMonth
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-                onChange={(date) => setStartDate(date)}
-              />
+            <DatePicker
+              dateFormat="dd/MM/yyyy"
+              className="datePickerInputLibrary"
+              selected={startDate}
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              onChange={(date) => setStartDate(date)}
+            />
 
-           <label>Mark</label>
-          <input
-            name="shipping_mark"
-            type="text"
-            onChange={handleInput}
-            value={pageValues.shipping_mark}
-          />
+            <label>Mark</label>
+            <input
+              name="shipping_mark"
+              type="text"
+              onChange={handleInput}
+              value={pageValues.shipping_mark}
+            />
           </div>
         </div>
 
-        <div className="CreateEnquiry-carrier-type-container" onChange={handleInput}>
+        <div
+          className="CreateEnquiry-carrier-type-container"
+          onChange={handleInput}
+        >
           <div>
-        <input type="radio" value="container" name="carrier_type" id="carrierr-type-radio-1" /> 
-        <label htmlFor="carrierr-type-radio-1">Container</label>
+            <input
+              type="radio"
+              value="container"
+              name="carrier_type"
+              id="carrierr-type-radio-1"
+            />
+            <label htmlFor="carrierr-type-radio-1">Container</label>
           </div>
           <div>
-        <input type="radio" value="cargo" name="carrier_type" id="carrierr-type-radio-2"/> 
-        <label htmlFor="carrierr-type-radio-2">Cargo</label>
+            <input
+              type="radio"
+              value="cargo"
+              name="carrier_type"
+              id="carrierr-type-radio-2"
+            />
+            <label htmlFor="carrierr-type-radio-2">Cargo</label>
           </div>
-      </div>
+        </div>
 
-      {pageValues.carrier_type == "cargo" && 
-        <div className="CreateEnquiry-cargo-details-container">
-          <label> Cargo Name </label>
-        <input type="text" value={pageValues.cargo_name} name="cargo_name" onChange={handleInput} />
-        <label className="contact-number-label"> Contact Number </label>
-        <input type="number" value={pageValues.contact_number} name="contact_number" onChange={handleInput}/>
-        </div>}
+        {pageValues.carrier_type == "cargo" && (
+          <div className="CreateEnquiry-cargo-details-container">
+            <label> Cargo Name </label>
+            <input
+              type="text"
+              value={pageValues.cargo_name}
+              name="cargo_name"
+              onChange={handleInput}
+            />
+            <label className="contact-number-label"> Contact Number </label>
+            <input
+              type="number"
+              value={pageValues.contact_number}
+              name="contact_number"
+              onChange={handleInput}
+            />
+          </div>
+        )}
 
-        <div className="CreateEnquiry-excel-button-container" >
-
-          <button onClick={addFromFavourites} className="add-from-favourite-button">
+        <div className="CreateEnquiry-excel-button-container">
+          <button
+            onClick={addFromFavourites}
+            className="add-from-favourite-button"
+          >
             <img alt="add from favourites" src={icAddFromFavourites} />{" "}
             <span>Add From Favourites</span>
           </button>

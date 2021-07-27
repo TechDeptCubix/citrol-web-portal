@@ -10,25 +10,18 @@ class AppContextProvider extends Component {
   };
 
   componentDidMount() {
-    let currentLocalValues = sessionStorage.getItem("citrolLoggedIn");
-    if (currentLocalValues) {
-      let previousStateOfLogin = JSON.parse(
-        sessionStorage.getItem("citrolLoggedIn")
-      );
-
+    console.log("our cookie in AppContext " + document.cookie);
+    if (document.cookie.length != 0) {
+      let previousStateOfLogin = JSON.parse(this.getCookie("citrolLoggedIn"));
       console.log(
-        "component DiD mount previous state ",
-        previousStateOfLogin.isAdminLoggedIn
+        "our cookie login state in App Context ",
+        previousStateOfLogin
       );
-
-      //if previously logged in and didnt logged out then go to home
-      // currently goes to home even if browser closed and came back or page refreshed
-      // remove this snippet if we want this (ie end session on browser close or page refresh)
       if (previousStateOfLogin.isAdminLoggedIn) {
         this.setState(previousStateOfLogin);
       }
     } else {
-      console.log("currentLocalValues null ");
+      console.log("Cookie not available");
     }
   }
   componentDidUpdate() {
@@ -41,16 +34,18 @@ class AppContextProvider extends Component {
   changeAdminLoginStatus = (loginStatus) => {
     console.log("changeAdminLoginStatus from Login.js is ", loginStatus);
 
-    sessionStorage.setItem(
-      "citrolLoggedIn",
-      JSON.stringify({ isAdminLoggedIn: loginStatus })
-    );
+    document.cookie =
+      "citrolLoggedIn=" +
+      JSON.stringify({
+        isAdminLoggedIn: loginStatus,
+      });
+
     this.setState({ isAdminLoggedIn: loginStatus });
   };
 
   changeCompanyCodeStatus = (companyCodeStatus) => {
     console.log("called changeCompanyCodeStatus");
-    //this.setState({ companyCode: companyCodeStatus });
+
     this.setState((prevState) => ({
       // object that we want to update
       ...prevState, // keep all other key-value pairs
@@ -60,12 +55,17 @@ class AppContextProvider extends Component {
 
   changeUserNameStatus = (userNameStatus) => {
     console.log("called changeCompanyCodeStatus");
-    //this.setState({ companyCode: companyCodeStatus });
+
     this.setState((prevState) => ({
       // object that we want to update
       ...prevState, // keep all other key-value pairs
       userName: userNameStatus, // update the value of specific key
     }));
+  };
+
+  getCookie = (n) => {
+    let a = `; ${document.cookie}`.match(`;\\s*${n}=([^;]+)`);
+    return a ? a[1] : "";
   };
 
   render() {
