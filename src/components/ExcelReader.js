@@ -23,7 +23,7 @@ class ExcelReader extends Component {
 
   handleFile() {
     if (this.state.file.size) {
-      console.log("file count ", this.state.file);
+      //console.log("file count ", this.state.file);
 
       /* Boilerplate to set up FileReader */
       const reader = new FileReader();
@@ -43,7 +43,7 @@ class ExcelReader extends Component {
         const data = XLSX.utils.sheet_to_json(ws);
         /* Update state */
         this.setState({ data: data, cols: make_cols(ws["!ref"]) }, () => {
-          //console.log(JSON.stringify(this.state.data, null, 2));
+          ////console.log(JSON.stringify(this.state.data, null, 2));
 
           this.props.getJsonDataFromExcel(this.state.data, null, 2);
         });
@@ -55,7 +55,7 @@ class ExcelReader extends Component {
         reader.readAsArrayBuffer(this.state.file);
       }
     } else {
-      console.log("file count no file chosen");
+      //console.log("file count no file chosen");
     }
   }
 

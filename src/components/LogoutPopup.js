@@ -10,14 +10,14 @@ function LogoutPopup(props) {
   const { state, changeAdminLoginStatus } = useContext(AppContext);
 
   if (state.isAdminLoggedIn) {
-    console.log("if - Admin is logged in ");
+    //console.log("if - Admin is logged in ");
   } else {
-    console.log("Logged out Admin, go to Login ");
+    //console.log("Logged out Admin, go to Login ");
     history.push("/");
   }
 
   const logoutAdmin = () => {
-    console.log("inside logoutAdmin");
+    //console.log("inside logoutAdmin");
     showLogoutPopup(false);
 
     // Save data to cookieStorage

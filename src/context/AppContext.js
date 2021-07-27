@@ -10,29 +10,26 @@ class AppContextProvider extends Component {
   };
 
   componentDidMount() {
-    console.log("our cookie in AppContext " + document.cookie);
+    ////console.log("our cookie in AppContext " + document.cookie);
     if (document.cookie.length != 0) {
       let previousStateOfLogin = JSON.parse(this.getCookie("citrolLoggedIn"));
-      console.log(
-        "our cookie login state in App Context ",
-        previousStateOfLogin
-      );
+      ////console.log("our cookie login state in App Context ",previousStateOfLogin);
       if (previousStateOfLogin.isAdminLoggedIn) {
         this.setState(previousStateOfLogin);
       }
     } else {
-      console.log("Cookie not available");
+      //console.log("Cookie not available");
     }
   }
   componentDidUpdate() {
-    console.log("component DidUpdate AppContext");
+    //console.log("component DidUpdate AppContext");
   }
   componentWillUnmount() {
-    console.log("component WillUnmount ");
+    //console.log("component WillUnmount ");
   }
 
   changeAdminLoginStatus = (loginStatus) => {
-    console.log("changeAdminLoginStatus from Login.js is ", loginStatus);
+    //console.log("changeAdminLoginStatus from Login.js is ", loginStatus);
 
     document.cookie =
       "citrolLoggedIn=" +
@@ -44,7 +41,7 @@ class AppContextProvider extends Component {
   };
 
   changeCompanyCodeStatus = (companyCodeStatus) => {
-    console.log("called changeCompanyCodeStatus");
+    //console.log("called changeCompanyCodeStatus");
 
     this.setState((prevState) => ({
       // object that we want to update
@@ -54,7 +51,7 @@ class AppContextProvider extends Component {
   };
 
   changeUserNameStatus = (userNameStatus) => {
-    console.log("called changeCompanyCodeStatus");
+    //console.log("called changeCompanyCodeStatus");
 
     this.setState((prevState) => ({
       // object that we want to update

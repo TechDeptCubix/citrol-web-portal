@@ -38,32 +38,32 @@ function CreateEnquiry() {
   if (current_company) {
     currentCompany = JSON.parse(current_company);
 
-    console.log("current_machineguid value is  ", currentCompany);
+    //console.log("current_machineguid value is  ", currentCompany);
   }
 
   //get username
   let currentUser;
-  console.log("our cookie is " + document.cookie);
+  //console.log("our cookie is " + document.cookie);
   if (document.cookie.length != 0) {
     var array = document.cookie.split("; ");
     let loggedInObject = array[1].split("=");
-    console.log("user json", JSON.parse(loggedInObject[1]));
+    //console.log("user json", JSON.parse(loggedInObject[1]));
 
     currentUser = JSON.parse(loggedInObject[1]);
-    console.log("user name from cookie ", currentUser.user);
+    //console.log("user name from cookie ", currentUser.user);
   } else {
-    console.log("Cookie not available");
+    //console.log("Cookie not available");
   }
 
   //import the function you want to use
   const { format } = require("date-fns");
   //today's date
   const today = format(new Date(), "dd-MMM-yyyy");
-  console.log("date format today date fns", today);
+  //console.log("date format today date fns", today);
 
   //time
   const timeWhenEntryIsMade = format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
-  console.log(timeWhenEntryIsMade);
+  //console.log(timeWhenEntryIsMade);
 
   // set empty value to all inputs and table row
 
@@ -87,7 +87,7 @@ function CreateEnquiry() {
   //first time setting an empty row in table, for that we need an empty object, like table_row_object_template
   // then when initial empty state is set using useState , listen to it then use that pageValues.table_row_values.length to set the
   //id of the table template object
-  console.log("about to create table_row_object_template");
+  //console.log("about to create table_row_object_template");
   table_row_object_template = {
     id: pageValues.table_row_values.length + 1,
     cmpcode: "",
@@ -118,12 +118,12 @@ function CreateEnquiry() {
     group: "",
   };
 
-  console.log(
-    "table_row_object_template is following ",
-    JSON.stringify(table_row_object_template)
-  );
+  //console.log(
+  // "table_row_object_template is following ",
+  //  JSON.stringify(table_row_object_template)
+  //);
 
-  console.log(" pageValues is ", pageValues);
+  //console.log(" pageValues is ", pageValues);
 
   //check for previous data, if yes fill the empty inputs and table row,
   // after that enable all buttons to enter values to the table
@@ -132,7 +132,7 @@ function CreateEnquiry() {
   const location = useLocation();
   const dataFromEnquiry = location.state;
 
-  console.log("data from enquiry ", dataFromEnquiry);
+  //console.log("data from enquiry ", dataFromEnquiry);
   // Here's how we'll keep track of our component's mounted state
 
   const addTableRow = () => {
@@ -153,20 +153,20 @@ function CreateEnquiry() {
     if (tbodyRef.current.lastElementChild) {
       tbodyRef.current.lastElementChild.firstChild.nextSibling.firstChild.firstChild.focus();
     } else {
-      console.log(" no last row child ");
+      //console.log(" no last row child ");
     }
   }, [numberORowsInTable]);
 
   useEffect(() => {
     if (dataFromEnquiry) {
-      console.log("We are from EnquiryListTable");
+      //console.log("We are from EnquiryListTable");
       getPreviousDraftItems();
     } else {
-      console.log("data from Create Enquiry null, fresh entry");
+      //console.log("data from Create Enquiry null, fresh entry");
       addTableRow();
     }
 
-    console.log("input ref is ", inputRef);
+    //console.log("input ref is ", inputRef);
 
     return () => "Create Enquiry Unmounted";
   }, []);
@@ -174,16 +174,16 @@ function CreateEnquiry() {
   useEffect(() => {
     const keyPressHandler = (e) => {
       if (e.altKey == true && e.keyCode === 65) {
-        console.log("alt + A key pressed emulate add item button ");
+        //console.log("alt + A key pressed emulate add item button ");
         addItemRef.current.click();
       }
       if (e.altKey == true && e.keyCode === 83) {
-        console.log("alt + S key pressed emulate sent enquiry button ");
+        //console.log("alt + S key pressed emulate sent enquiry button ");
 
         sentEnquiryRef.current.click();
       }
       if (e.altKey == true && e.keyCode === 68) {
-        console.log("alt + D key pressed emulate draft button ");
+        //console.log("alt + D key pressed emulate draft button ");
 
         draftEnquiryRef.current.click();
       }
@@ -198,14 +198,14 @@ function CreateEnquiry() {
   const getPreviousDraftItems = () => {
     const getPreviousDraftApiUrL = `http://185.140.249.224:26/api/EnquiryDraft/${dataFromEnquiry.enquiry_number}/${currentCompany.company_code}`; // todo remove hard coded values, in unique id , i have to get it from home page list
 
-    console.log(
-      "Cubix get previous draft list API URL ",
-      getPreviousDraftApiUrL
-    );
+    //console.log(
+    // "Cubix get previous draft list API URL ",
+    //  getPreviousDraftApiUrL
+    //);
     axios
       .get(getPreviousDraftApiUrL)
       .then((res) => {
-        console.log(" Cubix Get revious Draft Response Success ", res.data);
+        //console.log(" Cubix Get revious Draft Response Success ", res.data);
         let updatedTableRows = res.data.map((item, index) => {
           let newItemObject = {
             id: index + 1,
@@ -240,10 +240,10 @@ function CreateEnquiry() {
           return newItemObject;
         });
 
-        console.log(
-          "updatedTableRows after taking value from previous draft ",
-          updatedTableRows
-        );
+        //console.log(
+        // "updatedTableRows after taking value from previous draft ",
+        //  updatedTableRows
+        // );
         setPageValues({
           ...pageValues,
           reference: dataFromEnquiry.reference,
@@ -253,7 +253,7 @@ function CreateEnquiry() {
         setJoinTwoArrays((prev) => prev + 1);
       })
       .catch((e) => {
-        console.log(" Cubix Get revious Draft Response Failure" + e);
+        //console.log(" Cubix Get revious Draft Response Failure" + e);
       });
   };
 
@@ -286,7 +286,7 @@ function CreateEnquiry() {
   };
   // these handlers are for remarks and reference input
   const handleInput = (e) => {
-    console.log("value changed in input so rerendering ", e);
+    //console.log("value changed in input so rerendering ", e);
     if (e.target.name == "carrier_type" && e.target.value == "container") {
       // if the carrier_type is container then we have to clear out values of cargo_name and contact number
       setPageValues({
@@ -302,7 +302,7 @@ function CreateEnquiry() {
 
   //these handlers are for inputs from Table row
   const handleInputFromRow = (e) => {
-    console.log("inside handleInputFromRow ", e.target.name, e.target.value);
+    //console.log("inside handleInputFromRow ", e.target.name, e.target.value);
 
     isItemCodeValidRef.current = false;
     // get typed characters
@@ -326,16 +326,16 @@ function CreateEnquiry() {
 
     let updatedTableRows = pageValues.table_row_values.map((item) => {
       if (item.id == e.target.id) {
-        console.log(" inside item.id == e.target.id");
+        //console.log(" inside item.id == e.target.id");
 
         if (e.target.name == "qty") {
           let qtyValue = 0;
 
           if (isNaN(parseInt(e.target.value, 10))) {
-            console.log("entered thing isNaN");
+            //console.log("entered thing isNaN");
             qtyValue = "";
           } else {
-            console.log("entered thing not isNaN");
+            //console.log("entered thing not isNaN");
             qtyValue = parseInt(e.target.value, 10);
           }
 
@@ -355,15 +355,15 @@ function CreateEnquiry() {
           };
         }
       } else {
-        console.log(" item not matching , e.target.id is", e.target.id);
+        //console.log(" item not matching , e.target.id is", e.target.id);
         return item;
       }
     });
 
-    console.log(
-      "after total amount value updated json ",
-      JSON.stringify(updatedTableRows)
-    );
+    //console.log(
+    // "after total amount value updated json ",
+    //  JSON.stringify(updatedTableRows)
+    //);
 
     // after every row is changed ( ie qty is changed so item amount will change) then we will find sum of amounts to get
     // total_amount and set that total_amount to innerHTML of total_amount_value span element
@@ -373,21 +373,21 @@ function CreateEnquiry() {
     let total_amount_after_changing_quantity = updatedTableRows.reduce(
       (accumulator, currentValue) => {
         if (currentValue.item_amount != null) {
-          console.log(
-            "current value reducer not null accumulator and current value  ",
-            accumulator,
-            currentValue
-          );
+          //console.log(
+          //  "current value reducer not null accumulator and current value  ",
+          // accumulator,
+          // currentValue
+          //);
           return accumulator + currentValue.item_amount;
         } else {
-          console.log("current value reducer null ", currentValue);
+          //console.log("current value reducer null ", currentValue);
           return accumulator + 0;
         }
       },
       0
     );
 
-    console.log("current value reducer ", total_amount_after_changing_quantity);
+    //console.log("current value reducer ", total_amount_after_changing_quantity);
     totalAmountRef.current.innerHTML =
       total_amount_after_changing_quantity.toFixed(2);
 
@@ -408,10 +408,10 @@ function CreateEnquiry() {
       }
     });
 
-    console.log(
-      "json stringify after checkbox",
-      JSON.stringify(updatedTableRows)
-    );
+    //console.log(
+    //  "json stringify after checkbox",
+    // JSON.stringify(updatedTableRows)
+    // );
     setPageValues({ ...pageValues, table_row_values: updatedTableRows });
   };
 
@@ -426,10 +426,10 @@ function CreateEnquiry() {
         return { ...item, id: index + 1 };
       });
 
-    console.log(
-      "json stringify after deleting all selected checkbox",
-      JSON.stringify(updatedTableRowsAfterDeletion)
-    );
+    //console.log(
+    //  "json stringify after deleting all selected checkbox",
+    // JSON.stringify(updatedTableRowsAfterDeletion)
+    // );
 
     setPageValues({
       ...pageValues,
@@ -451,7 +451,7 @@ function CreateEnquiry() {
     let shippingmarkDraft = pageValues.shipping_mark;
     let customerName = pageValues.customer_name;
 
-    console.log("our data before drafting ", pageValues.table_row_values);
+    //console.log("our data before drafting ", pageValues.table_row_values);
 
     // 2021-08-15T09:11:00.000Z
     // d1 key startDate, we send in year month day format, because backend table column DateTime supports only that format
@@ -491,23 +491,23 @@ function CreateEnquiry() {
 
     const apiUrL = "http://185.140.249.224:26/api/EnquiryDraft";
 
-    console.log(
-      "Jsonified original json",
-      JSON.stringify(postArrayForEnquiryDraft)
-    );
+    //console.log(
+    //  "Jsonified original json",
+    // JSON.stringify(postArrayForEnquiryDraft)
+    //);
 
     axios
       .post(apiUrL, postArrayForEnquiryDraft)
       .then((res) => {
-        console.log(" Cubix Drafting API Response Success ", res.data);
+        //console.log(" Cubix Drafting API Response Success ", res.data);
         if ((res.data.result = "Saved")) {
-          console.log("inside res.data.result is Saved");
+          //console.log("inside res.data.result is Saved");
 
           showHideSuccessPopup("Drafted enquiry");
         }
       })
       .catch((e) => {
-        console.log("Cubix Drafting API Response Failure" + e);
+        //console.log("Cubix Drafting API Response Failure" + e);
       });
   };
 
@@ -556,38 +556,38 @@ function CreateEnquiry() {
 
     const apiUrL = "http://185.140.249.224:26/api/Enquiry";
 
-    console.log(
-      "Jsonified original json sent enquiry ",
-      JSON.stringify(postArrayForEnquiryDraft)
-    );
+    //console.log(
+    // "Jsonified original json sent enquiry ",
+    // JSON.stringify(postArrayForEnquiryDraft)
+    //);
 
     axios
       .post(apiUrL, postArrayForEnquiryDraft)
       .then((res) => {
-        console.log(" Cubix Sent Enquiry API Response Success ", res.data);
+        //console.log(" Cubix Sent Enquiry API Response Success ", res.data);
         if ((res.data.result = "Saved")) {
-          console.log("inside res.data.result is Saved");
+          //console.log("inside res.data.result is Saved");
           showHideSuccessPopup("Enquiry Send");
         }
       })
       .catch((e) => {
-        console.log("Cubix Drafting API Response Failure" + e);
+        //console.log("Cubix Drafting API Response Failure" + e);
       });
   };
 
   const handleListItemClick = (e) => {
-    console.log(
-      "selected item from list and current event and event dataset code ",
-      e.currentTarget,
-      e.target,
-      e.target.dataset.code,
-      currentCodeInputBox
-    );
+    //console.log(
+    //  "selected item from list and current event and event dataset code ",
+    //  e.currentTarget,
+    //  e.target,
+    //  e.target.dataset.code,
+    //  currentCodeInputBox
+    //);
     setIsUserSearching(false);
 
     let updatedTableRows = pageValues.table_row_values.map((item) => {
       if (item.id == currentCodeInputBox) {
-        console.log(" Searchlist select inside item.id == e.target.id");
+        //console.log(" Searchlist select inside item.id == e.target.id");
 
         isItemCodeValidRef.current = true;
         // here we will place value of item code from API instead of e.target.value
@@ -600,18 +600,18 @@ function CreateEnquiry() {
           is_valid_item: true,
         };
       } else {
-        console.log(
-          " item not matching Searchlist select, e.target.id is",
-          e.target.id
-        );
+        //console.log(
+        //  " item not matching Searchlist select, e.target.id is",
+        //  e.target.id
+        // );
         return item;
       }
     });
 
-    console.log(
-      "selected item from list jsonified",
-      JSON.stringify(updatedTableRows)
-    );
+    //console.log(
+    //"selected item from list jsonified",
+    // JSON.stringify(updatedTableRows)
+    // );
 
     setPageValues({
       ...pageValues,
@@ -626,10 +626,10 @@ function CreateEnquiry() {
   let currentSelectedListitemFromSearch = 0;
   const handleKeyboardArrowDown = (e) => {
     if (liRefArray.length > 0) {
-      console.log(
-        " on down arrow click get reference of next item ",
-        e.keyCode
-      );
+      //console.log(
+      //  " on down arrow click get reference of next item ",
+      // e.keyCode
+      // );
 
       if (e.keyCode == 40) {
         // start downward travel
@@ -645,10 +645,10 @@ function CreateEnquiry() {
           "selectedListItem"
         );
 
-        console.log(
-          "current currentSelectedListitemFromSearch is ",
-          currentSelectedListitemFromSearch
-        );
+        //console.log(
+        //  "current currentSelectedListitemFromSearch is ",
+        // currentSelectedListitemFromSearch
+        //);
 
         liRefArray[currentSelectedListitemFromSearch].scrollIntoView({
           behavior: "smooth",
@@ -656,7 +656,7 @@ function CreateEnquiry() {
         });
       } else if (e.keyCode == 38) {
         // start upward travel
-        console.log("up arrow key pressed ");
+        //console.log("up arrow key pressed ");
         currentSelectedListitemFromSearch--;
         if (currentSelectedListitemFromSearch < 0) {
           currentSelectedListitemFromSearch = liRefArray.length - 1;
@@ -669,10 +669,10 @@ function CreateEnquiry() {
           "selectedListItem"
         );
 
-        console.log(
-          "current currentSelectedListitemFromSearch is ",
-          currentSelectedListitemFromSearch
-        );
+        //console.log(
+        //  "current currentSelectedListitemFromSearch is ",
+        //  currentSelectedListitemFromSearch
+        // );
         liRefArray[currentSelectedListitemFromSearch].scrollIntoView({
           block: "start",
         });
@@ -694,11 +694,11 @@ function CreateEnquiry() {
     if (e.keyCode == 13) {
       addItemRef.current.click();
 
-      console.log(
-        " enter key clickeck inside qty ",
-        e.target.parentElement.parentElement.parentElement.parentElement
-          .lastElementChild.lastElementChild
-      );
+      //console.log(
+      // " enter key clickeck inside qty ",
+      // e.target.parentElement.parentElement.parentElement.parentElement
+      //   .lastElementChild.lastElementChild
+      //);
     }
   };
 
@@ -716,12 +716,12 @@ function CreateEnquiry() {
         liRefArray[currentSelectedListitemFromSearch].classList.add(
           "selectedListItem"
         );
-        console.log("array of li reference in CreateEnquiry.js ", liRefArray);
+        //console.log("array of li reference in CreateEnquiry.js ", liRefArray);
       } else {
-        console.log("array from child is empty ");
+        //console.log("array from child is empty ");
       }
     } else {
-      console.log("li ref array from child is null");
+      //console.log("li ref array from child is null");
     }
   };
 
@@ -729,7 +729,7 @@ function CreateEnquiry() {
     let uniqueKeyForEnquiry =
       currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
 
-    console.log("before download to excel values", pageValues.table_row_values);
+    //console.log("before download to excel values", pageValues.table_row_values);
     let referenceForEnquiry = pageValues.reference;
     let remarksForEnquiry = pageValues.remarks;
     let postArrayForDownloadToExcel = pageValues.table_row_values
@@ -807,7 +807,7 @@ function CreateEnquiry() {
   };
 
   const getJsonDataFromExcel = (jsonFromExcel) => {
-    console.log("json from excel ", jsonFromExcel);
+    //console.log("json from excel ", jsonFromExcel);
 
     let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
       (item) => !(item.code.trim() === "") && item.qty > 0
@@ -844,7 +844,7 @@ function CreateEnquiry() {
 
       return newItemObject;
     });
-    console.log("hello updatedTableRows  ", updatedTableRows);
+    //console.log("hello updatedTableRows  ", updatedTableRows);
 
     setPageValues({
       ...pageValues,
@@ -855,35 +855,35 @@ function CreateEnquiry() {
   };
 
   useEffect(() => {
-    console.log("after joining 2 arrays", pageValues.table_row_values);
+    //console.log("after joining 2 arrays", pageValues.table_row_values);
     // find total and show in html total span
     let total_amount_after_changing_quantity =
       pageValues.table_row_values.reduce((accumulator, currentValue) => {
         if (currentValue.item_amount != null) {
-          console.log("current value reducer not null ", currentValue);
+          //console.log("current value reducer not null ", currentValue);
           return accumulator + currentValue.item_amount;
         } else {
-          console.log("current value reducer null ", currentValue);
+          //console.log("current value reducer null ", currentValue);
           return accumulator + 0;
         }
       }, 0);
-    console.log(
-      "current value reducer total [joinTwoArrays]",
-      total_amount_after_changing_quantity
-    );
+    //console.log(
+    // "current value reducer total [joinTwoArrays]",
+    //  total_amount_after_changing_quantity
+    // );
     totalAmountRef.current.innerHTML =
       total_amount_after_changing_quantity.toFixed(2);
   }, [joinTwoArrays]);
 
   const checkWhetherValidCode = (e) => {
     pageValues.table_row_values.map((item) => {
-      console.log("onblur item details", item);
+      //console.log("onblur item details", item);
       if (e.target.id == item.id) {
         if (isItemCodeValidRef.current) {
           setIsValidCodeState(true);
         } else {
           setIsValidCodeState(false);
-          console.log("onblur gone out of input now bring focus back to him");
+          //console.log("onblur gone out of input now bring focus back to him");
           //e.target.focus();
         }
       }
@@ -893,24 +893,24 @@ function CreateEnquiry() {
   const addFromFavourites = () => {
     const apiUrl = `http://185.140.249.224:26/api/cubixitems/favourite/${currentCompany.company_code}/${currentUser.user}`;
 
-    console.log("api for getting favourites list", apiUrl);
+    //console.log("api for getting favourites list", apiUrl);
 
     axios
       .get(apiUrl)
       .then((res) => {
-        console.log("api for getting favourites list DATA SUCCESS ", res.data);
+        //console.log("api for getting favourites list DATA SUCCESS ", res.data);
         setFavouriteItemList(res.data);
       })
       .catch(() => {
-        console.log("api for getting favourites list DATA FAILURE ");
+        //console.log("api for getting favourites list DATA FAILURE ");
       });
   };
 
   useEffect(() => {
-    console.log(
-      "favouriteItemList state changed length is ",
-      favouriteItemList.length
-    );
+    //console.log(
+    // "favouriteItemList state changed length is ",
+    //  favouriteItemList.length
+    //);
     if (favouriteItemList.length > 0) {
       let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
         (item) => !(item.code.trim() === "")
@@ -947,7 +947,7 @@ function CreateEnquiry() {
 
         return newItemObject;
       });
-      console.log("hello updatedTableRows  ", updatedTableRows);
+      //console.log("hello updatedTableRows  ", updatedTableRows);
 
       setPageValues({
         ...pageValues,

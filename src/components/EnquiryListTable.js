@@ -15,7 +15,7 @@ function EnquiryListTable() {
     if (current_company_local) {
       currentCompany = JSON.parse(localStorage.getItem("current_company"));
 
-      console.log("Home page company value is  ", currentCompany);
+      //console.log("Home page company value is  ", currentCompany);
 
       setCompanyCode(currentCompany.company_code);
     }
@@ -26,22 +26,22 @@ function EnquiryListTable() {
       .get(apiUrl)
       .then((res) => {
         setIsSending(false);
-        console.log("Enquiry Table response ", res.data);
+        //console.log("Enquiry Table response ", res.data);
         setListOfEnquiry(res.data);
       })
       .catch((e) => {
-        console.log("the error in Homepage api call " + e);
+        //console.log("the error in Homepage api call " + e);
         setIsSending(false);
       });
   };
 
   useEffect(() => {
-    console.log("HomePage Machine component >>>>>>> MOunted ");
+    //console.log("HomePage Machine component >>>>>>> MOunted ");
 
     getListOfEnquiries();
 
     return function cleanup() {
-      console.log("HomePage Machine component <<<<<<< unmounted ");
+      //console.log("HomePage Machine component <<<<<<< unmounted ");
     };
   }, []);
 

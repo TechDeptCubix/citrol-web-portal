@@ -16,11 +16,11 @@ function StartingPage() {
     if (currentLocalValues) {
       let machineguid = JSON.parse(localStorage.getItem("current_machineguid"));
 
-      console.log("current_machineguid value is  ", machineguid);
+      //console.log("current_machineguid value is  ", machineguid);
 
       setShowLogin(true);
     } else {
-      console.log("currentLocalValues null ");
+      //console.log("currentLocalValues null ");
       setShowRegisterMachine(true);
     }
   }, []);
@@ -46,13 +46,13 @@ function StartingPage() {
   // else if an empty array comes, that means Registration is not success
 
   const showLoginPageAfterRegistration = () => {
-    console.log("showLoginPageAfterRegistration called ");
+    //console.log("showLoginPageAfterRegistration called ");
     setShowRegisterMachine(false);
     setShowLogin(true);
   };
 
   const showRegistrationPage = () => {
-    console.log("showRegistrationPage called ");
+    //console.log("showRegistrationPage called ");
     setShowLogin(false);
     setShowRegisterMachine(true);
   };

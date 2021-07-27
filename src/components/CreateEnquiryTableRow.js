@@ -18,13 +18,13 @@ function CreateEnquiryTableRow(props) {
   } = props;
 
   useEffect(() => {
-    console.log("row component mounted rowValues ", JSON.stringify(rowValues));
+    //console.log("row component mounted rowValues ", JSON.stringify(rowValues));
   }, []);
 
   return (
     <tr>
-      {console.log("code is ", rowValues.code)}
-      {console.log("boolean status  of search drop down", isUserSearching)}
+      {/* {console.log("code is ", rowValues.code)} */}
+      {/* {console.log("boolean status  of search drop down", isUserSearching)} */}
       <td>{rowValues.id}</td>
       <td
         className={

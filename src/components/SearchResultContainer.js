@@ -24,22 +24,22 @@ function SearchResultContainer(props) {
       .get(apiUrl)
       .then((res) => {
         calledApi = false;
-        console.log("SearchResultContainer item search response is ", res.data);
+        //console.log("SearchResultContainer item search response is ", res.data);
 
         setSearchResultList(res.data);
       })
       .catch(() => {
         calledApi = false;
-        console.log(" SearchResultContainer error on item search API");
+        //console.log(" SearchResultContainer error on item search API");
       });
   };
   function validate() {
-    console.log(
-      "Validating after 500ms... call Api search text is ",
-      internalState
-    );
+    //console.log(
+    //  "Validating after 500ms... call Api search text is ",
+    // internalState
+    //);
     if (calledApi) {
-      console.log("Already called API no need to call again");
+      //console.log("Already called API no need to call again");
     } else {
       callApi();
     }
@@ -64,10 +64,10 @@ function SearchResultContainer(props) {
   }, [internalState]);
 
   useEffect(() => {
-    console.log(
-      "reference list array is SearchResultContainer.js before sending to parent",
-      liArrayPositionRef
-    );
+    //console.log(
+    // "reference list array is SearchResultContainer.js before sending to parent",
+    // liArrayPositionRef
+    // );
 
     if (liArrayPositionRef.length > 0) {
       // pass reference array of li elements to parent so on keydown add selectedItem className to current li element
@@ -102,7 +102,7 @@ function SearchResultContainer(props) {
           );
         })}
       </ul>
-      {console.log(" props.isValidCodeState is ", props.isValidCodeState)}
+      {/* {console.log(" props.isValidCodeState is ", props.isValidCodeState)} */}
       {props.isValidCodeState ? null : (
         <div className="SearchResultContainer-invalid-code">
           <img src={item_not_found} />

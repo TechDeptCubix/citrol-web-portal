@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "../css/Login.css";
 import logo from "../img/citrol-logo-transparent.png";
-import backgroundImageLogin from "../img/backgroundImageLogin.png";
-import loginBgImage2 from "../img/login_bg_image-2.jpg";
-import cubix_logo from "../img/cubix_logo.png";
 
 import image_1_login from "../img/image_1_login.png";
 import image_2_login from "../img/image_2_login.png";
@@ -22,10 +19,10 @@ import { Link } from "react-router-dom";
 function RegisterMachine(props) {
   const { state, changeCompanyCodeStatus } = useContext(AppContext);
   useEffect(() => {
-    console.log("Register Machine component >>>>>>> MOunted ");
+    //console.log("Register Machine component >>>>>>> MOunted ");
 
     return function cleanup() {
-      console.log("Register Machine component <<<<<<< unmounted ");
+      //console.log("Register Machine component <<<<<<< unmounted ");
     };
   }, []);
 
@@ -50,7 +47,7 @@ function RegisterMachine(props) {
 
       return true;
     } else {
-      console.log("company_name company_code empty");
+      //console.log("company_name company_code empty");
 
       setValues({
         ...values,
@@ -67,7 +64,7 @@ function RegisterMachine(props) {
 
     // update state of Button
     setIsSending(true);
-    console.log("button clicked");
+    //console.log("button clicked");
 
     // first validate input values
     validateInput();
@@ -77,14 +74,14 @@ function RegisterMachine(props) {
     if (validateInput()) {
       const apiUrl = `http://185.140.249.224:26/api/RegisterMachine/${values.system_key}/${values.company_code}/${values.company_name}`;
 
-      console.log(
-        "validateInput success call api company_name company_code is ",
-        values.company_name,
-        values.company_code,
-        values.system_key
-      );
+      //console.log(
+      // "validateInput success call api company_name company_code is ",
+      // values.company_name,
+      // values.company_code,
+      // values.system_key
+      //);
 
-      console.log("API URL is ", apiUrl);
+      //console.log("API URL is ", apiUrl);
 
       setValues({
         ...values,
@@ -94,10 +91,10 @@ function RegisterMachine(props) {
       axios
         .get(apiUrl)
         .then((res) => {
-          console.log("api response ", res);
+          //console.log("api response ", res);
           // is return data is as expected "QpwL5tke4Pnpja7X4" changeAdminLoginStatus(true);
           if (res.data.length) {
-            console.log("API response array size is ", res.data.length);
+            //console.log("API response array size is ", res.data.length);
             // set both context and localStorage to true ,
             // hence context will go to home asynchronously and will prevent from <ProtectedRoute going back
             // because localStorage may not be set to true because of latency
@@ -133,16 +130,16 @@ function RegisterMachine(props) {
                 "company name or company code or system key is not correct",
             });
 
-            console.log(
-              "API response company name or company code or system key is not correct"
-            );
+            //console.log(
+            //  "API response company name or company code or system key is not correct"
+            // );
 
             // enable button again
             setIsSending(false);
           }
         })
         .catch((e) => {
-          console.log("something went wrong ", e);
+          //console.log("something went wrong ", e);
           setValues({
             ...values,
             error: "Something went wrong, Please try again ",
@@ -154,13 +151,13 @@ function RegisterMachine(props) {
       // axios
       //   .get(apiUrl)
       //   .then((res) => {
-      //     console.log(" dummy api result ", res);
+      //     //console.log(" dummy api result ", res);
       //   })
       //   .catch((e) => {
-      //     console.log("Error in api call ", e);
+      //     //console.log("Error in api call ", e);
       //   });
     } else {
-      console.log(" validateInput returned false");
+      //console.log(" validateInput returned false");
       // enable button again
       setIsSending(false);
     }
@@ -174,13 +171,12 @@ function RegisterMachine(props) {
     });
   };
 
-  
-  const handleEnterKey = (e) =>{
-    if(e.keyCode == 13){
-      console.log("nextsibling of  e ", e.target.nextSibling);
+  const handleEnterKey = (e) => {
+    if (e.keyCode == 13) {
+      //console.log("nextsibling of  e ", e.target.nextSibling);
       e.target.nextSibling.focus();
     }
-  }
+  };
   return (
     <div className="Login-page-height">
       <div className="Login-main-section">

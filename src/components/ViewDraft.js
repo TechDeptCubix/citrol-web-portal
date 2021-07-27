@@ -17,7 +17,7 @@ function ViewDraft() {
     table_row_values: [],
   });
 
-  console.log("data from enquiry ", dataFromEnquiry);
+  //console.log("data from enquiry ", dataFromEnquiry);
 
   //get username
   let current_user = sessionStorage.getItem("citrolLoggedInUser");
@@ -25,24 +25,24 @@ function ViewDraft() {
   if (current_user) {
     currentUser = JSON.parse(current_user);
 
-    console.log("current_machineguid value is  ", currentUser);
+    //console.log("current_machineguid value is  ", currentUser);
   }
 
   //import the function you want to use
   const { format } = require("date-fns");
   //today's date
   const today = format(new Date(), "dd-MMM-yyyy");
-  console.log(today);
+  //console.log(today);
 
   useEffect(() => {
     const apiUrl = `http://185.140.249.224:26/api/EnquiryDraft/${dataFromEnquiry.enquiryNumber}/${dataFromEnquiry.companyCodeForView}`;
 
-    console.log("API View Draft ",apiUrl );
-    
+    //console.log("API View Draft ",apiUrl );
+
     axios
       .get(apiUrl)
       .then((res) => {
-        console.log("ViewEnquiry API response success ", res.data);
+        //console.log("ViewEnquiry API response success ", res.data);
         setInitialViewValues({
           ...initialViewValues,
           reference: res.data[0].ord_H_ref,
@@ -53,7 +53,7 @@ function ViewDraft() {
         });
       })
       .catch((e) => {
-        console.log("ViewEnquiry API response error ", e);
+        //console.log("ViewEnquiry API response error ", e);
       });
   }, []);
 
@@ -61,10 +61,10 @@ function ViewDraft() {
     let uniqueKeyForEnquiry =
       currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
 
-    console.log(
-      "before download to excel values in ViewDraft",
-      initialViewValues.table_row_values
-    );
+    //console.log(
+    // "before download to excel values in ViewDraft",
+    // initialViewValues.table_row_values
+    //);
     let referenceForEnquiry = initialViewValues.reference;
     let remarksForEnquiry = initialViewValues.remarks;
     let postArrayForDownloadToExcel = initialViewValues.table_row_values
@@ -98,10 +98,10 @@ function ViewDraft() {
         };
       });
 
-    console.log(
-      "before download to excel values postArrayForDownloadToExcel in ViewDraft",
-      postArrayForDownloadToExcel
-    );
+    //console.log(
+    //   "before download to excel values postArrayForDownloadToExcel in ViewDraft",
+    //  postArrayForDownloadToExcel
+    // );
 
     if (!postArrayForDownloadToExcel.length > 0) {
       postArrayForDownloadToExcel = [
@@ -214,7 +214,7 @@ function ViewDraft() {
             {initialViewValues.table_row_values.map((item, index) => {
               return (
                 <tr key={index}>
-                  {console.log(" enquiry item ", item)}
+                  {/* {console.log(" enquiry item ", item)} */}
                   <td>{index + 1}</td>
                   <td>{item.code}</td>
                   <td>{item.group}</td>

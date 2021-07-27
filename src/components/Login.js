@@ -40,7 +40,7 @@ function Login(props) {
   const [companyName, setCompanyName] = useState("");
 
   useEffect(() => {
-    console.log("Login component >>>>>>> MOunted ");
+    //console.log("Login component >>>>>>> MOunted ");
     // disable button till the machine is validated
     setIsSending(true);
 
@@ -62,38 +62,38 @@ function Login(props) {
         apiUrl = `http://185.140.249.224:26/api/ValidMachine/${current_machineguid.machineguid}`;
       }
 
-      console.log("inside validate Machine apiUrl ", apiUrl);
+      //console.log("inside validate Machine apiUrl ", apiUrl);
       axios
         .get(apiUrl)
         .then((res) => {
           if (res.data.length > 0) {
-            console.log("Yess valid Machine");
+            //console.log("Yess valid Machine");
             // if success, enable Login Button
             setIsSending(false);
             setIsMachineValid(true);
           } else {
-            console.log("machine not validated, Register machine");
+            //console.log("machine not validated, Register machine");
             setIsMachineValid(false);
             showRegistrationPage();
           }
         })
         .catch((e) => {
-          console.log("Eror while validating machine ", e);
+          //console.log("Eror while validating machine ", e);
           //if any technical error  refresh the page
         });
     };
 
     validateMachine();
     return function cleanup() {
-      console.log("Login component unmounted ");
+      //console.log("Login component unmounted ");
     };
   }, [showRegistrationPage]);
 
   if (isMachineValid) {
-    console.log("inside  if (isMachineValid) ");
+    //console.log("inside  if (isMachineValid) ");
 
     if (state.isAdminLoggedIn) {
-      console.log("inside  if (state.isAdminLoggedIn)");
+      //console.log("inside  if (state.isAdminLoggedIn)");
       history.push("/home");
     }
   }
@@ -107,7 +107,7 @@ function Login(props) {
 
       return true;
     } else {
-      console.log("username password empty");
+      //console.log("username password empty");
 
       setValues({
         ...values,
@@ -119,7 +119,7 @@ function Login(props) {
   };
 
   const sendRequest = () => {
-    console.log("button clicked");
+    //console.log("button clicked");
     // disable button till success or failure result
     if (isSending) return;
 
@@ -138,14 +138,14 @@ function Login(props) {
       if (current_company) {
         currentCompany = JSON.parse(localStorage.getItem("current_company"));
 
-        console.log("current_machineguid value is  ", currentCompany);
+        //console.log("current_machineguid value is  ", currentCompany);
       }
 
-      console.log(
-        "validateInput success call api uname pwd is ",
-        values.username,
-        values.userpassword
-      );
+      //console.log(
+      //"validateInput success call api uname pwd is ",
+      // values.username,
+      //values.userpassword
+      // );
       const apiUrl = `http://185.140.249.224:26/api/validuser/${currentCompany.company_code}/${values.username}/${values.userpassword}`;
 
       setValues({
@@ -156,7 +156,7 @@ function Login(props) {
       axios
         .get(apiUrl)
         .then((res) => {
-          console.log("api response ", res);
+          //console.log("api response ", res);
 
           if (res.data.length > 0) {
             // set both context and localStorage to true ,
@@ -187,14 +187,14 @@ function Login(props) {
               error: "Username or password is not correct",
             });
 
-            console.log("API response username password not correct");
+            //console.log("API response username password not correct");
 
             // enable button again
             setIsSending(false);
           }
         })
         .catch((e) => {
-          console.log("something went wrong ", e);
+          //console.log("something went wrong ", e);
           setValues({
             ...values,
             error: "Something went wrong, Please try again ",
@@ -203,7 +203,7 @@ function Login(props) {
           setIsSending(false);
         });
     } else {
-      console.log(" validateInput returned false");
+      //console.log(" validateInput returned false");
       // enable button again
       setIsSending(false);
     }
@@ -219,7 +219,7 @@ function Login(props) {
 
   const handleEnterKey = (e) => {
     if (e.keyCode == 13) {
-      console.log("nextsibling of  e ", e.target.nextSibling);
+      //console.log("nextsibling of  e ", e.target.nextSibling);
       e.target.nextSibling.focus();
     }
   };
