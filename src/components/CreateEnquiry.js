@@ -42,17 +42,19 @@ function CreateEnquiry() {
   }
 
   //get username
-  let currentUser;
-  //console.log("our cookie is " + document.cookie);
-  if (document.cookie.length != 0) {
-    var array = document.cookie.split("; ");
-    let loggedInObject = array[1].split("=");
-    //console.log("user json", JSON.parse(loggedInObject[1]));
 
-    currentUser = JSON.parse(loggedInObject[1]);
-    //console.log("user name from cookie ", currentUser.user);
+  const getCookie = (n) => {
+    let a = `; ${document.cookie}`.match(`;\\s*${n}=([^;]+)`);
+    return a ? a[1] : "";
+  };
+
+  let currentUser;
+
+  if (document.cookie.length != 0) {
+    currentUser = JSON.parse(getCookie("citrolLoggedInUser"));
+    console.log("user name from cookie ", currentUser.user);
   } else {
-    //console.log("Cookie not available");
+    console.log("Cookie not available");
   }
 
   //import the function you want to use
@@ -491,10 +493,10 @@ function CreateEnquiry() {
 
     const apiUrL = "http://185.140.249.224:26/api/EnquiryDraft";
 
-    //console.log(
-    //  "Jsonified original json",
-    // JSON.stringify(postArrayForEnquiryDraft)
-    //);
+    console.log(
+      "Jsonified original json",
+      JSON.stringify(postArrayForEnquiryDraft)
+    );
 
     axios
       .post(apiUrL, postArrayForEnquiryDraft)
