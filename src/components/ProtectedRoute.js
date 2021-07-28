@@ -9,10 +9,16 @@ function ProtectedRoute({ component: Component, ...rest }) {
       {...rest}
       render={(props) => {
         if (state.isAdminLoggedIn) {
-          //console.log( "Route success  loginContextState",state.isAdminLoggedIn);
+          console.log(
+            "ProtectedRoute Route success  loginContextState",
+            state.isAdminLoggedIn
+          );
           return <Component />;
         } else {
-          //console.log("Route failure  loginContextState",state.isAdminLoggedIn);
+          console.log(
+            "ProtectedRoute Route failure  loginContextState",
+            state.isAdminLoggedIn
+          );
           return (
             <Redirect to={{ pathname: "/", state: { from: props.location } }} />
           );

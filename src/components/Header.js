@@ -16,6 +16,7 @@ function Header() {
 
     //console.log("current_machineguid value is  ", currentCompany);
   }
+
   const initialCreditAndBalance = [
     {
       credit_limit: 5,
@@ -25,6 +26,17 @@ function Header() {
   const [creditAndBalance, setCreditAndBalance] = useState(
     initialCreditAndBalance
   );
+
+  const [orderStatusCount, setOrderStatusCount] = useState([]);
+
+  const [orderStatusCountObject, setOrderStatusCountObject] = useState({
+    delivered: 0,
+    draft: 0,
+    order_accepted: 0,
+    processing: 0,
+    under_production: 0,
+  });
+
   const [visibilityOfOrderDropDown, setVisibilityOfOrderDropDown] =
     useState("none");
 
@@ -58,6 +70,7 @@ function Header() {
 
       //console.log("Home page company value is  ", currentCompany);
 
+      // get balance and credit
       const apiUrl = `http://185.140.249.224:26/api/CustomerInform/${currentCompany.company_code}`;
       axios
         .get(apiUrl)
@@ -68,8 +81,58 @@ function Header() {
         .catch((e) => {
           //console.log("something went wrong");
         });
+
+      // get order status count
+      const apiUrlOrderStatusCount = `http://185.140.249.224:26/api/orderstatuscount/${currentCompany.company_code}`;
+      axios
+        .get(apiUrlOrderStatusCount)
+        .then((res) => {
+          //console.log("order and status count is  ", res.data);
+          setOrderStatusCount(res.data);
+        })
+        .catch((e) => {
+          //console.log("something went wrong");
+        });
     }
   }, []);
+
+  useEffect(() => {
+    //console.log("Order status count array change useEffect ", orderStatusCount);
+
+    orderStatusCount.map((item) => {
+      if (item.status == "DELIVERED") {
+        //console.log("Order status count inside Delivered ", item);
+
+        setOrderStatusCountObject((prev) => ({
+          ...prev,
+          delivered: item.nos,
+        }));
+      } else if (item.status == "DRAFT") {
+        setOrderStatusCountObject((prev) => ({
+          ...prev,
+          draft: item.nos,
+        }));
+      }
+      if (item.status == "ORDER ACCEPTED") {
+        setOrderStatusCountObject((prev) => ({
+          ...prev,
+          order_accepted: item.nos,
+        }));
+      }
+      if (item.status == "UNDER PRODUCTION") {
+        setOrderStatusCountObject((prev) => ({
+          ...prev,
+          under_production: item.nos,
+        }));
+      }
+      if (item.status == "PROCESSING") {
+        setOrderStatusCountObject((prev) => ({
+          ...prev,
+          processing: item.nos,
+        }));
+      }
+    });
+  }, [orderStatusCount]);
 
   return (
     <div className={splitLocation[1] === "" ? "hideLoginContainer" : ""}>
@@ -77,28 +140,28 @@ function Header() {
         <Link to="/home">
           <img src={logo} className="Header-logo" alt="logo" />
         </Link>
-
         <div className="Header-balance-statistics-container">
           <div className="Header-statistics-container">
             <div className="Header-statistics-container-child">
               <div className="Header-statistics-container-child-div-1">
-                Pending <span>{45}</span>
+                Pending <span>{orderStatusCountObject.draft}</span>
               </div>{" "}
               <div className="Header-statistics-container-child-div-1">
-                Accepted <span>{22}</span>
+                Accepted <span>{orderStatusCountObject.order_accepted}</span>
               </div>{" "}
               <div>
-                Processing <span>{56}</span>
+                Processing <span>{orderStatusCountObject.processing}</span>
               </div>
             </div>
             <div className="Header-statistics-container-second-child">
               <div className="Header-statistics-container-child-div-1">
                 {" "}
-                Under Production <span>{45}</span>{" "}
+                Under Production{" "}
+                <span>{orderStatusCountObject.under_production}</span>{" "}
               </div>
 
               <div>
-                Delivered <span>{22}</span>{" "}
+                Delivered <span>{orderStatusCountObject.delivered}</span>{" "}
               </div>
             </div>
           </div>

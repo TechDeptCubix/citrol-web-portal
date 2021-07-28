@@ -2,11 +2,47 @@ import React, { useEffect, useState } from "react";
 import "../css/HomePage.css";
 import ic_important_notifications from "../img/ic_important_notifications.png";
 import ic_offers from "../img/ic_offers.png";
-import ic_offer_1 from "../img/ic_offer_1.png";
-import ic_offer_2 from "../img/ic_offer_2.png";
+import ic_offer_1 from "../img/ic_no_image.png";
 import EnquiryListTable from "./EnquiryListTable";
+import axios from "axios";
 
 const Homepage = () => {
+  //get username
+  let current_company = localStorage.getItem("current_company");
+  let currentCompany;
+  if (current_company) {
+    currentCompany = JSON.parse(current_company);
+  }
+
+  const [importantNotifications, setImportantNotifications] = useState([]);
+  const [offers, setOffers] = useState([]);
+
+  useEffect(() => {
+    // get important notifcations
+    const apiUrlImportantNotification = `http://185.140.249.224:26/api/feeds/messages/${currentCompany.company_code}`;
+    axios
+      .get(apiUrlImportantNotification)
+      .then((res) => {
+        // console.log("important notifications is  ", res.data);
+        setImportantNotifications(res.data);
+      })
+      .catch((e) => {
+        //console.log("something went wrong");
+      });
+
+    // get offers
+    const apiUrlOffers = `http://185.140.249.224:26/api/feeds/offers/${currentCompany.company_code}`;
+    axios
+      .get(apiUrlOffers)
+      .then((res) => {
+        //console.log("offers is  ", res.data);
+        setOffers(res.data);
+      })
+      .catch((e) => {
+        //console.log("something went wrong");
+      });
+  }, []);
+
   return (
     <div>
       <div className="Homepage-main-container">
@@ -29,11 +65,9 @@ const Homepage = () => {
             </div>
             <div className="HomePage-ulContainer">
               <ul>
-                <li>
-                  Delivery for item “DK-12 ABS SENSORS” will be delayed by 1 day
-                </li>
-                <li>Requested items J2 SUSPENSION back in stock</li>
-                <li>Requested items K5 SUSPENSION back in stock</li>
+                {importantNotifications.map((item, index) => {
+                  return <li key={index}>{item.message}</li>;
+                })}
               </ul>
             </div>
           </div>
@@ -45,22 +79,17 @@ const Homepage = () => {
             </div>
             <div className="HomePage-ulContainer">
               <ul>
-                <li>
-                  <img src={ic_offer_1} alt="offer 1" />
-                  <div id="HomePage-ulContainer-bottom-shape"></div>
-                  <div id="HomePage-ulContainer-upper-shape">
-                    <span>
-                      20% off on compressors dfgsh dr dty dy dt y bdbb bfb
-                    </span>
-                  </div>
-                </li>
-                <li>
-                  <img src={ic_offer_2} alt="offer 2" />
-                  <div id="HomePage-ulContainer-bottom-shape"></div>
-                  <div id="HomePage-ulContainer-upper-shape">
-                    <span>Get disk brakes at unbelievable prices</span>
-                  </div>
-                </li>
+                {offers.map((item, index) => {
+                  return (
+                    <li key={index}>
+                      <img src={ic_offer_1} alt="image of offer item" />
+                      <div id="HomePage-ulContainer-bottom-shape"></div>
+                      <div id="HomePage-ulContainer-upper-shape">
+                        <span>{item.message}</span>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

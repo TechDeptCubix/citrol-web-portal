@@ -52,9 +52,9 @@ function CreateEnquiry() {
 
   if (document.cookie.length != 0) {
     currentUser = JSON.parse(getCookie("citrolLoggedInUser"));
-    console.log("user name from cookie ", currentUser.user);
+    //console.log("user name from cookie ", currentUser.user);
   } else {
-    console.log("Cookie not available");
+    //console.log("Cookie not available");
   }
 
   //import the function you want to use
