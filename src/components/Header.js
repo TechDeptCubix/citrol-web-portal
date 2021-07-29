@@ -2,25 +2,64 @@ import React, { useContext, useRef } from "react";
 import logo from "../img/citrol-logo-transparent.png";
 import "../css/Header.css";
 import { useLocation, Link } from "react-router-dom";
-import ic_dropdown_arrow from "../img/ic_dropdown_arrow.png";
 import { useState, useEffect } from "react";
 import LogoutPopup from "../components/LogoutPopup";
 import axios from "axios";
+import { AppContext } from "../context/AppContext";
 
 function Header() {
-  //get username
   let current_company = localStorage.getItem("current_company");
   let currentCompany;
-  if (current_company) {
-    currentCompany = JSON.parse(current_company);
 
-    //console.log("current_machineguid value is  ", currentCompany);
+  const [companyName, setCompanyName] = useState("");
+
+  // call apis in header only after we get login state as true
+  // because header is already loaded as it is not a protected route
+  // so api gets called even before registation so no company code is received from local storage
+
+  let isUserLoggedInFlag = false;
+  const { state } = useContext(AppContext);
+  if (state.isAdminLoggedIn) {
+    console.log("Context user logged in ");
+    isUserLoggedInFlag = true;
   }
+
+  const getHeaderData = () => {
+    if (current_company) {
+      currentCompany = JSON.parse(current_company);
+      setCompanyName(currentCompany.company_name);
+      //console.log("Home page company value is  ", currentCompany);
+
+      // get balance and credit
+      const apiUrl = `http://185.140.249.224:26/api/CustomerInform/${currentCompany.company_code}`;
+      axios
+        .get(apiUrl)
+        .then((res) => {
+          console.log("balance and credit is  ", res.data);
+          setCreditAndBalance(res.data);
+        })
+        .catch((e) => {
+          //console.log("something went wrong");
+        });
+
+      // get order status count
+      const apiUrlOrderStatusCount = `http://185.140.249.224:26/api/orderstatuscount/${currentCompany.company_code}`;
+      axios
+        .get(apiUrlOrderStatusCount)
+        .then((res) => {
+          console.log("order and status count is  ", res.data);
+          setOrderStatusCount(res.data);
+        })
+        .catch((e) => {
+          //console.log("something went wrong");
+        });
+    }
+  };
 
   const initialCreditAndBalance = [
     {
-      credit_limit: 5,
-      balance: 5,
+      credit_limit: 0,
+      balance: 0,
     },
   ];
   const [creditAndBalance, setCreditAndBalance] = useState(
@@ -61,78 +100,53 @@ function Header() {
   };
 
   useEffect(() => {
-    //console.log("useEffect called of header");
+    console.log("Order status count array change useEffect ", orderStatusCount);
 
-    let current_company_local = localStorage.getItem("current_company");
-    let currentCompany;
-    if (current_company_local) {
-      currentCompany = JSON.parse(current_company_local);
+    if (orderStatusCount.length > 0) {
+      orderStatusCount.map((item) => {
+        if (item.status == "DELIVERED") {
+          //console.log("Order status count inside Delivered ", item);
 
-      //console.log("Home page company value is  ", currentCompany);
-
-      // get balance and credit
-      const apiUrl = `http://185.140.249.224:26/api/CustomerInform/${currentCompany.company_code}`;
-      axios
-        .get(apiUrl)
-        .then((res) => {
-          //console.log("balance and credit is  ", res.data);
-          setCreditAndBalance(res.data);
-        })
-        .catch((e) => {
-          //console.log("something went wrong");
-        });
-
-      // get order status count
-      const apiUrlOrderStatusCount = `http://185.140.249.224:26/api/orderstatuscount/${currentCompany.company_code}`;
-      axios
-        .get(apiUrlOrderStatusCount)
-        .then((res) => {
-          //console.log("order and status count is  ", res.data);
-          setOrderStatusCount(res.data);
-        })
-        .catch((e) => {
-          //console.log("something went wrong");
-        });
+          setOrderStatusCountObject((prev) => ({
+            ...prev,
+            delivered: item.nos,
+          }));
+        } else if (item.status == "DRAFT") {
+          setOrderStatusCountObject((prev) => ({
+            ...prev,
+            draft: item.nos,
+          }));
+        }
+        if (item.status == "ORDER ACCEPTED") {
+          setOrderStatusCountObject((prev) => ({
+            ...prev,
+            order_accepted: item.nos,
+          }));
+        }
+        if (item.status == "UNDER PRODUCTION") {
+          setOrderStatusCountObject((prev) => ({
+            ...prev,
+            under_production: item.nos,
+          }));
+        }
+        if (item.status == "PROCESSING") {
+          setOrderStatusCountObject((prev) => ({
+            ...prev,
+            processing: item.nos,
+          }));
+        }
+      });
+    } else {
+      console.log("Header stat count length else ");
     }
-  }, []);
+  }, [orderStatusCount]);
 
   useEffect(() => {
-    //console.log("Order status count array change useEffect ", orderStatusCount);
-
-    orderStatusCount.map((item) => {
-      if (item.status == "DELIVERED") {
-        //console.log("Order status count inside Delivered ", item);
-
-        setOrderStatusCountObject((prev) => ({
-          ...prev,
-          delivered: item.nos,
-        }));
-      } else if (item.status == "DRAFT") {
-        setOrderStatusCountObject((prev) => ({
-          ...prev,
-          draft: item.nos,
-        }));
-      }
-      if (item.status == "ORDER ACCEPTED") {
-        setOrderStatusCountObject((prev) => ({
-          ...prev,
-          order_accepted: item.nos,
-        }));
-      }
-      if (item.status == "UNDER PRODUCTION") {
-        setOrderStatusCountObject((prev) => ({
-          ...prev,
-          under_production: item.nos,
-        }));
-      }
-      if (item.status == "PROCESSING") {
-        setOrderStatusCountObject((prev) => ({
-          ...prev,
-          processing: item.nos,
-        }));
-      }
-    });
-  }, [orderStatusCount]);
+    if (isUserLoggedInFlag) {
+      console.log("useEffect user logged in Header.js ");
+      getHeaderData();
+    }
+  }, [isUserLoggedInFlag]);
 
   return (
     <div className={splitLocation[1] === "" ? "hideLoginContainer" : ""}>
@@ -161,13 +175,13 @@ function Header() {
               </div>
 
               <div>
-                Delivered <span>{orderStatusCountObject.delivered}</span>{" "}
+                Delivered <span> {orderStatusCountObject.delivered} </span>{" "}
               </div>
             </div>
           </div>
 
           <div className="Header-credit-balance-container">
-            <label>{currentCompany ? currentCompany.company_name : ""}</label>
+            <label>{companyName}</label>
             <div>
               <span className="Header-balance-label">Credit Limit </span> :{" "}
               <span className="Header-balance-value">

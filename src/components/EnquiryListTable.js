@@ -62,61 +62,69 @@ function EnquiryListTable() {
             </tr>
           </thead>
           <tbody>
-            {listOfEnquiry.map((singleItem, index) => {
-              return (
-                <tr
-                  key={index}
-                  className={
-                    singleItem.type === "Draft"
-                      ? "HomePage-draft-row-bg"
-                      : "HomePage-accepted-row-bg"
-                  }
-                >
-                  <td>{singleItem.type}</td>
-                  <td>{singleItem.enquiry_number}</td>
-                  <td>{singleItem.status}</td>
-                  <td>{singleItem.reference}</td>
-                  <td>
-                    {" "}
-                    <Link
-                      to={
-                        singleItem.type === "Draft"
-                          ? {
-                              pathname: "/viewDraft",
-                              state: {
-                                enquiryNumber: singleItem.enquiry_number,
-                                companyCodeForView: stateCompanyCode,
-                              },
-                            }
-                          : {
-                              pathname: "/viewEnquiry",
-                              state: {
-                                enquiryNumber: singleItem.enquiry_number,
-                                companyCodeForView: stateCompanyCode,
-                              },
-                            }
-                      }
-                    >
-                      View
-                    </Link>
-                  </td>
-                  <td>
-                    {singleItem.type === "Draft" ? (
+            {listOfEnquiry.length > 0 ? (
+              listOfEnquiry.map((singleItem, index) => {
+                return (
+                  <tr
+                    key={index}
+                    className={
+                      singleItem.type === "Draft"
+                        ? "HomePage-draft-row-bg"
+                        : "HomePage-accepted-row-bg"
+                    }
+                  >
+                    <td>{singleItem.type}</td>
+                    <td>{singleItem.enquiry_number}</td>
+                    <td>{singleItem.status}</td>
+                    <td>{singleItem.reference}</td>
+                    <td>
+                      {" "}
                       <Link
-                        to={{
-                          pathname: "/createEnquiry",
-                          state: singleItem,
-                        }}
+                        to={
+                          singleItem.type === "Draft"
+                            ? {
+                                pathname: "/viewDraft",
+                                state: {
+                                  enquiryNumber: singleItem.enquiry_number,
+                                  companyCodeForView: stateCompanyCode,
+                                },
+                              }
+                            : {
+                                pathname: "/viewEnquiry",
+                                state: {
+                                  enquiryNumber: singleItem.enquiry_number,
+                                  companyCodeForView: stateCompanyCode,
+                                },
+                              }
+                        }
                       >
-                        Edit
+                        View
                       </Link>
-                    ) : (
-                      ""
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td>
+                      {singleItem.type === "Draft" ? (
+                        <Link
+                          to={{
+                            pathname: "/createEnquiry",
+                            state: singleItem,
+                          }}
+                        >
+                          Edit
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <div className="no-data-enquiry-table">
+                  No Data to display. Please create an enquiry
+                </div>
+              </tr>
+            )}
           </tbody>
         </table>
       )}

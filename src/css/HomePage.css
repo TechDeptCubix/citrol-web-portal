@@ -153,6 +153,14 @@
   background-color: rgb(243, 241, 241);
 }
 
+.no-offers-text {
+  padding-left: 30px !important;
+}
+
+.no-data-enquiry-table {
+  padding: 20px;
+}
+
 /* Extra large devices (large desktops)
 No media query since the extra-large breakpoint has no upper bound on its width */
 

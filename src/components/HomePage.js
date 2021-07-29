@@ -23,8 +23,10 @@ const Homepage = () => {
     axios
       .get(apiUrlImportantNotification)
       .then((res) => {
-        // console.log("important notifications is  ", res.data);
-        setImportantNotifications(res.data);
+        if (res.data) {
+          console.log("important notifications is", res.data);
+          setImportantNotifications(res.data);
+        }
       })
       .catch((e) => {
         //console.log("something went wrong");
@@ -35,7 +37,7 @@ const Homepage = () => {
     axios
       .get(apiUrlOffers)
       .then((res) => {
-        //console.log("offers is  ", res.data);
+        console.log("offers is  ", res.data);
         setOffers(res.data);
       })
       .catch((e) => {
@@ -65,9 +67,13 @@ const Homepage = () => {
             </div>
             <div className="HomePage-ulContainer">
               <ul>
-                {importantNotifications.map((item, index) => {
-                  return <li key={index}>{item.message}</li>;
-                })}
+                {importantNotifications.length > 0 ? (
+                  importantNotifications.map((item, index) => {
+                    return <li key={index}>{item.message}</li>;
+                  })
+                ) : (
+                  <li>No notifications.</li>
+                )}
               </ul>
             </div>
           </div>
@@ -79,17 +85,21 @@ const Homepage = () => {
             </div>
             <div className="HomePage-ulContainer">
               <ul>
-                {offers.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <img src={ic_offer_1} alt="image of offer item" />
-                      <div id="HomePage-ulContainer-bottom-shape"></div>
-                      <div id="HomePage-ulContainer-upper-shape">
-                        <span>{item.message}</span>
-                      </div>
-                    </li>
-                  );
-                })}
+                {offers.length > 0 ? (
+                  offers.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <img src={ic_offer_1} alt="image of offer item" />
+                        <div id="HomePage-ulContainer-bottom-shape"></div>
+                        <div id="HomePage-ulContainer-upper-shape">
+                          <span>{item.message}</span>
+                        </div>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <li className="no-offers-text">No offers available.</li>
+                )}
               </ul>
             </div>
           </div>

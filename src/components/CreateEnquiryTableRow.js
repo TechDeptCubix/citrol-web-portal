@@ -68,7 +68,7 @@ function CreateEnquiryTableRow(props) {
           value={rowValues.qty}
           onChange={handleInputFromRow}
           onKeyDown={handleQtykeyDown}
-          className="Create-enquiry-input-unit-price "
+          className="Create-enquiry-input-unit-price"
         />
       </td>
       <td className="Create-enquiry-input-unit-price">
