@@ -7,7 +7,7 @@ import EnquiryListTable from "./EnquiryListTable";
 import axios from "axios";
 
 const Homepage = () => {
-  //get username
+  //get company
   let current_company = localStorage.getItem("current_company");
   let currentCompany;
   if (current_company) {

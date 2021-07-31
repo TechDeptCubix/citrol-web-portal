@@ -135,7 +135,7 @@
   cursor: pointer;
 }
 
-.add-from-favourite-button{
+.add-from-favourite-button {
   margin-right: 10px;
 }
 
@@ -239,7 +239,7 @@ input[type="number"] {
   text-align: center;
 }
 
-.CreateEnquiry-carrier-type-container{
+.CreateEnquiry-carrier-type-container {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
@@ -250,18 +250,30 @@ input[type="number"] {
   margin-top: 20px;
 }
 
-.CreateEnquiry-cargo-details-container input{
+.CreateEnquiry-cargo-details-container input {
   margin-left: 10px;
 }
 
-.CreateEnquiry-cargo-details-container .contact-number-label{
-
+.CreateEnquiry-cargo-details-container .contact-number-label {
   margin-left: 20px;
 }
 
-.second-row-date-input-label{
-margin-top: 20px;
-margin-left: 0px;
-display: flex;
-    flex-direction: row;
+.second-row-date-input-label {
+  margin-top: 20px;
+  margin-left: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.required_field_star {
+  color: #f00;
+}
+
+.input-error-validation {
+  border: 3px solid #ff1b1b !important;
+}
+
+.input-error-validation-hide {
+  outline: none !important;
+  border-bottom: 2px solid #5e5c5c !important;
 }

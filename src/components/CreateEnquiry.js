@@ -29,6 +29,8 @@ function CreateEnquiry() {
   const [isValidCodeState, setIsValidCodeState] = useState(true);
   const [startDate, setStartDate] = useState(new Date());
   const [favouriteItemList, setFavouriteItemList] = useState([]);
+  const [errorMessageReference, setErrorMessageReference] = useState(false);
+  const [errorMessageCustomerName, setErrorMessageCustomerName] = useState("");
 
   let liRefArray = useRef([]);
 
@@ -453,64 +455,77 @@ function CreateEnquiry() {
     let shippingmarkDraft = pageValues.shipping_mark;
     let customerName = pageValues.customer_name;
 
-    //console.log("our data before drafting ", pageValues.table_row_values);
+    if (!(referenceForEnquiry.trim() === "") && !(customerName.trim() === "")) {
+      //console.log("our data before drafting ", pageValues.table_row_values);
 
-    // 2021-08-15T09:11:00.000Z
-    // d1 key startDate, we send in year month day format, because backend table column DateTime supports only that format
-    // T09:11:00.000Z means Time and Zone
+      // 2021-08-15T09:11:00.000Z
+      // d1 key startDate, we send in year month day format, because backend table column DateTime supports only that format
+      // T09:11:00.000Z means Time and Zone
 
-    const postArrayForEnquiryDraft = pageValues.table_row_values
-      .filter((item) => item.is_valid_item)
-      .map((item) => {
-        return {
-          cmpcode: companyCodeForEnquiry,
-          ord_Id: dataFromEnquiry
-            ? dataFromEnquiry.enquiry_number
-            : uniqueKeyForEnquiry,
-          ord_date: dataFromEnquiry ? dataFromEnquiry.date : today,
-          ord_ref: referenceForEnquiry,
-          ord_rem: remarksForEnquiry,
-          code: item.code,
-          description: item.description,
-          qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
-          unit_price: parseInt(item.unit_price, 10),
-          account: "",
-          c1: currentUser.user,
-          c2: carrierTypeDraft,
-          c3: cargoNameDraft,
-          c4: dataFromEnquiry ? "MODIFY" : "NEW",
-          c5: contactNumberDraft,
-          c6: shippingmarkDraft,
-          c7: customerName,
-          n1: 0,
-          n2: 0,
-          n3: 0,
-          d1: startDate,
-          d2: "",
-        };
-      })
-      .filter((item) => !(item.code.trim() === "") && item.qty > 0);
+      const postArrayForEnquiryDraft = pageValues.table_row_values
+        .filter((item) => item.is_valid_item)
+        .map((item) => {
+          return {
+            cmpcode: companyCodeForEnquiry,
+            ord_Id: dataFromEnquiry
+              ? dataFromEnquiry.enquiry_number
+              : uniqueKeyForEnquiry,
+            ord_date: dataFromEnquiry ? dataFromEnquiry.date : today,
+            ord_ref: referenceForEnquiry,
+            ord_rem: remarksForEnquiry,
+            code: item.code,
+            description: item.description,
+            qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
+            unit_price: parseInt(item.unit_price, 10),
+            account: "",
+            c1: currentUser.user,
+            c2: carrierTypeDraft,
+            c3: cargoNameDraft,
+            c4: dataFromEnquiry ? "MODIFY" : "NEW",
+            c5: contactNumberDraft,
+            c6: shippingmarkDraft,
+            c7: customerName,
+            n1: 0,
+            n2: 0,
+            n3: 0,
+            d1: startDate,
+            d2: "",
+          };
+        })
+        .filter((item) => !(item.code.trim() === "") && item.qty > 0);
 
-    const apiUrL = "http://185.140.249.224:26/api/EnquiryDraft";
+      const apiUrL = "http://185.140.249.224:26/api/EnquiryDraft";
 
-    console.log(
-      "Jsonified original json",
-      JSON.stringify(postArrayForEnquiryDraft)
-    );
+      console.log(
+        "Jsonified original json",
+        JSON.stringify(postArrayForEnquiryDraft)
+      );
 
-    axios
-      .post(apiUrL, postArrayForEnquiryDraft)
-      .then((res) => {
-        //console.log(" Cubix Drafting API Response Success ", res.data);
-        if ((res.data.result = "Saved")) {
-          //console.log("inside res.data.result is Saved");
+      axios
+        .post(apiUrL, postArrayForEnquiryDraft)
+        .then((res) => {
+          //console.log(" Cubix Drafting API Response Success ", res.data);
+          if ((res.data.result = "Saved")) {
+            //console.log("inside res.data.result is Saved");
 
-          showHideSuccessPopup("Drafted enquiry");
-        }
-      })
-      .catch((e) => {
-        //console.log("Cubix Drafting API Response Failure" + e);
-      });
+            showHideSuccessPopup("Drafted enquiry");
+          }
+        })
+        .catch((e) => {
+          //console.log("Cubix Drafting API Response Failure" + e);
+        });
+    } else {
+      if (referenceForEnquiry.trim() === "") {
+        setErrorMessageReference(true);
+      } else {
+        setErrorMessageReference(false);
+      }
+      if (customerName.trim() === "") {
+        setErrorMessageCustomerName(true);
+      } else {
+        setErrorMessageCustomerName(false);
+      }
+    }
   };
 
   const sentEnquiry = () => {
@@ -526,55 +541,68 @@ function CreateEnquiry() {
     let shippingmarkDraft = pageValues.shipping_mark;
     let customerName = pageValues.customer_name;
 
-    const postArrayForEnquiryDraft = pageValues.table_row_values
-      .filter((item) => item.is_valid_item)
-      .map((item) => {
-        return {
-          cmpcode: companyCodeForEnquiry,
-          ord_Id: dataFromEnquiry ? dataFromEnquiry.enquiry_number : "-99",
-          ord_date: dataFromEnquiry ? dataFromEnquiry.date : today,
-          ord_ref: referenceForEnquiry,
-          ord_rem: remarksForEnquiry,
-          code: item.code,
-          description: item.description,
-          qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
-          unit_price: item.unit_price,
-          account: "",
-          c1: currentUser.user,
-          c2: carrierTypeDraft,
-          c3: cargoNameDraft,
-          c4: "NEW",
-          c5: contactNumberDraft,
-          c6: shippingmarkDraft,
-          c7: customerName,
-          n1: 0,
-          n2: 0,
-          n3: 0,
-          d1: startDate,
-          d2: "",
-        };
-      })
-      .filter((item) => !(item.code.trim() === "") && item.qty > 0);
+    if (!(referenceForEnquiry.trim() === "") && !(customerName.trim() === "")) {
+      const postArrayForEnquiryDraft = pageValues.table_row_values
+        .filter((item) => item.is_valid_item)
+        .map((item) => {
+          return {
+            cmpcode: companyCodeForEnquiry,
+            ord_Id: dataFromEnquiry ? dataFromEnquiry.enquiry_number : "-99",
+            ord_date: dataFromEnquiry ? dataFromEnquiry.date : today,
+            ord_ref: referenceForEnquiry,
+            ord_rem: remarksForEnquiry,
+            code: item.code,
+            description: item.description,
+            qty: parseInt(item.qty, 10), // qty: parseInt(item.qty, 10),  10: This is the base number used in mathematical systems. For our use, it should always be 10.
+            unit_price: item.unit_price,
+            account: "",
+            c1: currentUser.user,
+            c2: carrierTypeDraft,
+            c3: cargoNameDraft,
+            c4: "NEW",
+            c5: contactNumberDraft,
+            c6: shippingmarkDraft,
+            c7: customerName,
+            n1: 0,
+            n2: 0,
+            n3: 0,
+            d1: startDate,
+            d2: "",
+          };
+        })
+        .filter((item) => !(item.code.trim() === "") && item.qty > 0);
 
-    const apiUrL = "http://185.140.249.224:26/api/Enquiry";
+      const apiUrL = "http://185.140.249.224:26/api/Enquiry";
 
-    //console.log(
-    // "Jsonified original json sent enquiry ",
-    // JSON.stringify(postArrayForEnquiryDraft)
-    //);
+      console.log(
+        "Jsonified original json sent enquiry ",
+        JSON.stringify(postArrayForEnquiryDraft)
+      );
 
-    axios
-      .post(apiUrL, postArrayForEnquiryDraft)
-      .then((res) => {
-        //console.log(" Cubix Sent Enquiry API Response Success ", res.data);
-        if ((res.data.result = "Saved")) {
-          //console.log("inside res.data.result is Saved");
-          showHideSuccessPopup("Enquiry Send");
-        }
-      })
-      .catch((e) => {
-        //console.log("Cubix Drafting API Response Failure" + e);
-      });
+      axios
+        .post(apiUrL, postArrayForEnquiryDraft)
+        .then((res) => {
+          //console.log(" Cubix Sent Enquiry API Response Success ", res.data);
+          if ((res.data.result = "Saved")) {
+            //console.log("inside res.data.result is Saved");
+            showHideSuccessPopup("Enquiry Send");
+          }
+        })
+        .catch((e) => {
+          //console.log("Cubix Drafting API Response Failure" + e);
+        });
+    } else {
+      if (referenceForEnquiry.trim() === "") {
+        setErrorMessageReference(true);
+      } else {
+        setErrorMessageReference(false);
+      }
+      if (customerName.trim() === "") {
+        setErrorMessageCustomerName(true);
+      } else {
+        setErrorMessageCustomerName(false);
+      }
+    }
   };
 
   const handleListItemClick = (e) => {
@@ -967,13 +995,22 @@ function CreateEnquiry() {
         <hr className="CreateEnquiry-divider" />
 
         <div className="CreateEnquiry-input-fields-container">
-          <label>Your Reference</label>
+          <label>
+            Your Reference <span className="required_field_star">*</span>
+          </label>
           <input
             name="reference"
             type="text"
             value={pageValues.reference}
+            onInput={() => setErrorMessageReference(false)}
             onChange={handleInput}
             ref={inputRef}
+            placeholder={errorMessageReference ? "Please enter reference" : ""}
+            className={
+              errorMessageReference
+                ? "input-error-validation"
+                : "input-error-validation-hide"
+            }
           />
           <label>Remarks</label>
           <input
@@ -983,17 +1020,28 @@ function CreateEnquiry() {
             onChange={handleInput}
             value={pageValues.remarks}
           />
-          <label>Customer Name</label>
+          <label>
+            Customer Name<span className="required_field_star">*</span>
+          </label>
           <input
             className="remarks-input"
             name="customer_name"
             type="text"
             onChange={handleInput}
+            onInput={() => setErrorMessageCustomerName(false)}
             value={pageValues.customer_name}
+            placeholder={
+              errorMessageCustomerName ? "Please enter customer name" : ""
+            }
+            className={
+              errorMessageCustomerName
+                ? "input-error-validation"
+                : "input-error-validation-hide"
+            }
           />
           <br />
           <div className="second-row-date-input-label">
-            <label>Date</label>
+            <label>Delivery Date</label>
 
             <DatePicker
               dateFormat="dd/MM/yyyy"
@@ -1026,6 +1074,7 @@ function CreateEnquiry() {
               value="container"
               name="carrier_type"
               id="carrierr-type-radio-1"
+              defaultChecked
             />
             <label htmlFor="carrierr-type-radio-1">Container</label>
           </div>
