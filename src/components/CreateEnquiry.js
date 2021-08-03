@@ -31,6 +31,8 @@ function CreateEnquiry() {
   const [favouriteItemList, setFavouriteItemList] = useState([]);
   const [errorMessageReference, setErrorMessageReference] = useState(false);
   const [errorMessageCustomerName, setErrorMessageCustomerName] = useState("");
+  const [fetchingDataFromFavourites, setFetchingDataFromFavourites] =
+    useState(false);
 
   let liRefArray = useRef([]);
 
@@ -509,10 +511,12 @@ function CreateEnquiry() {
             //console.log("inside res.data.result is Saved");
 
             showHideSuccessPopup("Drafted enquiry");
+          } else {
+            window.alert("Something went wrong,Please try after sometime");
           }
         })
         .catch((e) => {
-          //console.log("Cubix Drafting API Response Failure" + e);
+          window.alert("Couldn't send request,Please try after sometime");
         });
     } else {
       if (referenceForEnquiry.trim() === "") {
@@ -529,6 +533,7 @@ function CreateEnquiry() {
   };
 
   const sentEnquiry = () => {
+    console.log(" inide sentEnquiry createEnquiry");
     let uniqueKeyForEnquiry =
       currentUser.user + "-" + format(new Date(), "dd-MMM-yyyy-HH-mm-ss");
     let companyCodeForEnquiry = currentCompany.company_code;
@@ -586,10 +591,12 @@ function CreateEnquiry() {
           if ((res.data.result = "Saved")) {
             //console.log("inside res.data.result is Saved");
             showHideSuccessPopup("Enquiry Send");
+          } else {
+            window.alert("Something went wrong,Please try after sometime");
           }
         })
         .catch((e) => {
-          //console.log("Cubix Drafting API Response Failure" + e);
+          window.alert("Couldn't send request,Please try after sometime"); // put this dialog to differentiate this from the else condition above
         });
     } else {
       if (referenceForEnquiry.trim() === "") {
@@ -837,10 +844,13 @@ function CreateEnquiry() {
   };
 
   const getJsonDataFromExcel = (jsonFromExcel) => {
-    //console.log("json from excel ", jsonFromExcel);
+    console.log(
+      "check data in screen  before filtering",
+      pageValues.table_row_values
+    );
 
     let filteredOutEmptyTableRows = pageValues.table_row_values.filter(
-      (item) => !(item.code.trim() === "") && item.qty > 0
+      (item) => !(item.code.trim() === "") || item.qty > 0
     );
     let updatedTableRows = jsonFromExcel.map((item, index) => {
       let newItemObject = {
@@ -874,7 +884,9 @@ function CreateEnquiry() {
 
       return newItemObject;
     });
-    //console.log("hello updatedTableRows  ", updatedTableRows);
+
+    console.log("check filteredOutEmptyTableRows  ", filteredOutEmptyTableRows);
+    console.log("check updatedTableRows  ", updatedTableRows);
 
     setPageValues({
       ...pageValues,
@@ -925,14 +937,17 @@ function CreateEnquiry() {
 
     //console.log("api for getting favourites list", apiUrl);
 
+    setFetchingDataFromFavourites(true);
     axios
       .get(apiUrl)
       .then((res) => {
         //console.log("api for getting favourites list DATA SUCCESS ", res.data);
         setFavouriteItemList(res.data);
+        setFetchingDataFromFavourites(false);
       })
       .catch(() => {
         //console.log("api for getting favourites list DATA FAILURE ");
+        setFetchingDataFromFavourites(false);
       });
   };
 
@@ -1230,6 +1245,14 @@ function CreateEnquiry() {
           showHideSuccessPopup={showHideSuccessPopup}
           popupDetail={popupTextState}
         />
+      )}
+
+      {fetchingDataFromFavourites && (
+        <div className="outer-container-fetching-data-from-favourites">
+          <div className="center-container-fetching-data-from-favourites">
+            <p>Adding Data... please wait </p>
+          </div>
+        </div>
       )}
     </div>
   );

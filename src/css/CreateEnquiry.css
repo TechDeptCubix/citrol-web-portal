@@ -277,3 +277,29 @@ input[type="number"] {
   outline: none !important;
   border-bottom: 2px solid #5e5c5c !important;
 }
+
+.outer-container-fetching-data-from-favourites {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-container-fetching-data-from-favourites {
+  opacity: 1 !important;
+  background-color: #ffffff;
+  height: 50%;
+  width: 30vw;
+  color: #000000;
+  z-index: 11 !important;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
