@@ -18,7 +18,7 @@ function SearchResultContainer(props) {
 
   const callApi = () => {
     calledApi = true;
-    const apiUrl = `http://185.140.249.224:26/api/cubixitems/d/${internalState}`;
+    const apiUrl = `http://citrolho.dyndns.org:28/api/cubixitems/${internalState}`;
 
     axios
       .get(apiUrl)
